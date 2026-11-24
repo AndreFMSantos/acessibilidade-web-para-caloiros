@@ -8,5 +8,7 @@ export interface Game {
   description: string;
   edition: string;
 }
-export interface CartItem { id: string; gameId: string }
-
+export interface CartItem {
+  id: string;
+  gameId: string;
+}

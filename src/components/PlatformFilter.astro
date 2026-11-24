@@ -1,9 +1,16 @@
 ---
 const platforms = ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'];
 ---
+
 <div class="platform-filter">
   <p id="platform-label">Plataforma</p>
-  <div role="button" aria-labelledby="platform-label platform-value" class="fake-select" data-platform-trigger>
+  <!-- biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useSemanticElements: Barreira deliberada para a demonstração. -->
+  <div
+    role="button"
+    aria-labelledby="platform-label platform-value"
+    class="fake-select"
+    data-platform-trigger
+  >
     <span id="platform-value">Todas</span><span aria-hidden="true">⌄</span>
   </div>
   <div class="platform-options" data-platform-options hidden>

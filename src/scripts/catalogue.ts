@@ -1,5 +1,5 @@
-import type { Game } from '../lib/types';
 import { formatPrice } from '../lib/format';
+import type { Game } from '../lib/types';
 import { element } from './dom';
 import { initPlatformFilter } from './platform-filter';
 
@@ -30,8 +30,11 @@ export function initCatalogue(games: Game[]) {
 
   function render() {
     const query = search.value.trim().toLocaleLowerCase('pt-PT');
-    const visible = games.filter((game) => (platform === 'Todas' || game.platform === platform)
-      && game.title.toLocaleLowerCase('pt-PT').includes(query));
+    const visible = games.filter(
+      (game) =>
+        (platform === 'Todas' || game.platform === platform) &&
+        game.title.toLocaleLowerCase('pt-PT').includes(query),
+    );
     if (sort.value === 'price') visible.sort((a, b) => a.price - b.price);
     for (const card of cards) card.hidden = true;
     let count = 0;
@@ -45,27 +48,45 @@ export function initCatalogue(games: Game[]) {
     results.textContent = `${count} ${count === 1 ? 'jogo disponível' : 'jogos disponíveis'}`;
     element('#empty', HTMLParagraphElement).hidden = count !== 0;
   }
-  initPlatformFilter((value) => { platform = value; render(); });
+  initPlatformFilter((value) => {
+    platform = value;
+    render();
+  });
   search.addEventListener('input', render);
   sort.addEventListener('change', render);
   try {
     const saved: unknown = JSON.parse(sessionStorage.getItem(storageKey) ?? 'null');
     if (typeof saved === 'object' && saved !== null) {
       if ('query' in saved && typeof saved.query === 'string') search.value = saved.query;
-      if ('sort' in saved && (saved.sort === 'featured' || saved.sort === 'price')) sort.value = saved.sort;
-      if ('platform' in saved && typeof saved.platform === 'string'
-        && ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)) {
+      if ('sort' in saved && (saved.sort === 'featured' || saved.sort === 'price'))
+        sort.value = saved.sort;
+      if (
+        'platform' in saved &&
+        typeof saved.platform === 'string' &&
+        ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)
+      ) {
         platform = saved.platform;
         const value = document.querySelector('#platform-value');
         if (value) value.textContent = platform;
       }
     }
-  } catch { /* O catálogo funciona mesmo sem armazenamento neste separador. */ }
+  } catch {
+    /* O catálogo funciona mesmo sem armazenamento neste separador. */
+  }
   document.addEventListener('click', (event) => {
-    if (!(event.target instanceof Element) || !event.target.closest('a')?.pathname.includes('/jogos/')) return;
+    if (
+      !(event.target instanceof Element) ||
+      !event.target.closest('a')?.pathname.includes('/jogos/')
+    )
+      return;
     try {
-      sessionStorage.setItem(storageKey, JSON.stringify({ query: search.value, sort: sort.value, platform }));
-    } catch { /* A navegação continua sem guardar os filtros. */ }
+      sessionStorage.setItem(
+        storageKey,
+        JSON.stringify({ query: search.value, sort: sort.value, platform }),
+      );
+    } catch {
+      /* A navegação continua sem guardar os filtros. */
+    }
   });
   render();
 }
