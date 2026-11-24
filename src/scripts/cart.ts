@@ -1,5 +1,5 @@
-import type { Game, CartItem } from '../lib/types';
 import { euro } from '../lib/format';
+import type { CartItem, Game } from '../lib/types';
 import { addCartItem, removeCartItem } from './api';
 import { element, showError } from './dom';
 
@@ -32,7 +32,10 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
       return [row];
     });
     list.replaceChildren(...(rows.length ? rows : [empty.content.cloneNode(true)]));
-    const total = items.reduce((sum, item) => sum + (games.find((game) => game.id === item.gameId)?.price ?? 0), 0);
+    const total = items.reduce(
+      (sum, item) => sum + (games.find((game) => game.id === item.gameId)?.price ?? 0),
+      0,
+    );
     element('#cart-total', HTMLParagraphElement).textContent = `Total: ${euro.format(total)}`;
   }
 
@@ -50,7 +53,10 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
       items = items.filter((item) => item.id !== id);
       render();
       close.focus();
-    } catch { showError('Não foi possível remover o jogo. Tenta novamente.'); button.disabled = false; }
+    } catch {
+      showError('Não foi possível remover o jogo. Tenta novamente.');
+      button.disabled = false;
+    }
   });
   document.querySelectorAll<HTMLButtonElement>('[data-add-game]').forEach((button) => {
     button.disabled = !games.some((game) => game.id === button.dataset.addGame);
@@ -58,7 +64,12 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
   document.addEventListener('click', async (event) => {
     if (!(event.target instanceof Element)) return;
     const button = event.target.closest('button[data-add-game]');
-    if (!(button instanceof HTMLButtonElement) || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+    if (
+      !(button instanceof HTMLButtonElement) ||
+      button.disabled ||
+      button.getAttribute('aria-disabled') === 'true'
+    )
+      return;
     const game = games.find((game) => game.id === button.dataset.addGame);
     if (!game) return;
     button.setAttribute('aria-disabled', 'true');
@@ -68,8 +79,13 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
       items.push(await addCartItem(game.id));
       render();
       status.textContent = `${game.title} foi adicionado ao carrinho. ${items.length} ${items.length === 1 ? 'jogo' : 'jogos'} no total.`;
-    } catch { showError('Não foi possível adicionar o jogo. Confirma que a API está a funcionar e tenta novamente.'); }
-    finally { button.removeAttribute('aria-disabled'); }
+    } catch {
+      showError(
+        'Não foi possível adicionar o jogo. Confirma que a API está a funcionar e tenta novamente.',
+      );
+    } finally {
+      button.removeAttribute('aria-disabled');
+    }
   });
   render();
 }

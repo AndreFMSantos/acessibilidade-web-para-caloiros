@@ -88,6 +88,19 @@ Também foram verificados: abertura dos detalhes por teclado, adição de Minecr
 
 Para verificar a estrutura das três branches e os ficheiros em que as versões da demonstração diferem: `npm run check:branches`. Esta verificação usa as branches locais e deve ser executada na `main`. Não substitui os testes de comportamento.
 
+## Lint e formatação
+
+```sh
+npm run lint
+npm run format
+npm run format:check
+npm run check:biome
+```
+
+Biome 2.6.9 está fixado no projeto e configurado para TypeScript, JavaScript, JSON, CSS e componentes Astro. O suporte completo a Astro é experimental e está ativado explicitamente; manter também `npm run check` e `npm run build`. Ver [suporte de linguagens do Biome](https://biomejs.dev/introduction/language-support/).
+
+O lockfile, os dados mutáveis e os ficheiros gerados não são formatados. As supressões de acessibilidade são locais e documentadas: o filtro deliberadamente inacessível e o falso positivo no `aria-label` dinâmico do cartão. A regra CSS de especificidade descendente está desativada por sinalizar seletores de componentes que não se sobrepõem; os dois `!important` necessários têm justificação junto à declaração.
+
 ## Organização do código
 
 - `src/components/`: HTML da loja em componentes Astro: `GameCard`, `GameCatalogue`, `Hero`, `SiteHeader`, `SiteFooter`, `CartDialog`, `CartFeedback`, `PlatformFilter`, `ProductDetail` e a composição `Store`.

@@ -1,8 +1,16 @@
 <dialog id="cart" aria-labelledby="cart-title">
-      <div class="dialog-heading"><h2 id="cart-title">O teu carrinho</h2><button type="button" id="close-cart">Fechar</button></div>
-      <ul id="cart-items"></ul>
-      <template id="cart-item-template">
-        <li><span data-cart-title></span><strong data-cart-price></strong><button type="button" data-remove-item></button></li>
-      </template>
-      <template id="cart-empty-template"><li>O carrinho está vazio.</li></template><p id="cart-total"></p><p class="demo-note">Demonstração: não existe pagamento.</p>
-    </dialog>
+  <div class="dialog-heading">
+    <h2 id="cart-title">O teu carrinho</h2>
+    <button type="button" id="close-cart">Fechar</button>
+  </div>
+  <ul id="cart-items"></ul>
+  <template id="cart-item-template">
+    <li>
+      <span data-cart-title></span><strong data-cart-price></strong
+      ><button type="button" data-remove-item></button>
+    </li>
+  </template>
+  <template id="cart-empty-template"><li>O carrinho está vazio.</li></template>
+  <p id="cart-total"></p>
+  <p class="demo-note">Demonstração: não existe pagamento.</p>
+</dialog>

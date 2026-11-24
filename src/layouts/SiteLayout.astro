@@ -1,32 +1,48 @@
 ---
 import '../styles.css';
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
 import CartDialog from '../components/CartDialog.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import { cataloguePath } from '../lib/versions';
-interface Props { title?: string; description?: string; contrast?: boolean; version?: string; gameId?: string }
+
+interface Props {
+  title?: string;
+  description?: string;
+  contrast?: boolean;
+  version?: string;
+  gameId?: string;
+}
 const {
   title = 'Checkpoint — O teu próximo jogo',
   description = 'Checkpoint: loja de videojogos de demonstração para a aula de acessibilidade no ISEC.',
-  contrast = false, version = '', gameId,
+  contrast = false,
+  version = '',
+  gameId,
 } = Astro.props;
 const catalogue = cataloguePath(version);
 ---
+
 <!doctype html>
 <html lang="pt-PT">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
-    <meta name="description" content={description} />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content={description}>
     <title>{title}</title>
   </head>
-  <body class:list={[{ 'contrast-corrected': contrast }]} data-version={version} data-game-id={gameId}>
+  <body
+    class:list={[{ 'contrast-corrected': contrast }]}
+    data-version={version}
+    data-game-id={gameId}
+  >
     <a class="skip-link" href="#main-content">Saltar para o conteúdo</a>
     <SiteHeader catalogue={catalogue} />
     <main id="main-content"><slot /></main>
     <SiteFooter />
     <CartDialog />
-    <script>import '../scripts/store';</script>
+    <script>
+    import '../scripts/store';
+    </script>
   </body>
 </html>

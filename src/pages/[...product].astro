@@ -1,13 +1,16 @@
 ---
-import ProductDetail from '../components/ProductDetail.astro';
 import seed from '../../data/seed.json';
-import { versions, productPath } from '../lib/versions';
+import ProductDetail from '../components/ProductDetail.astro';
+import { productPath, versions } from '../lib/versions';
 
 export function getStaticPaths() {
-  return versions.flatMap((version) => seed.games.map((game) => ({
-    params: { product: productPath(game.id, version.name).slice(1) },
-    props: { game, version: version.name, contrast: version.contrast, status: version.status },
-  })));
+  return versions.flatMap((version) =>
+    seed.games.map((game) => ({
+      params: { product: productPath(game.id, version.name).slice(1) },
+      props: { game, version: version.name, contrast: version.contrast, status: version.status },
+    })),
+  );
 }
 ---
+
 <ProductDetail {...Astro.props} />

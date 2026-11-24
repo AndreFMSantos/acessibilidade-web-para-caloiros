@@ -1,6 +1,9 @@
 ---
-interface Props { status?: boolean }
+interface Props {
+  status?: boolean;
+}
 const { status = false } = Astro.props;
 ---
+
 <p id="cart-status" role={status ? 'status' : undefined}></p>
 <p id="api-error" role="alert" hidden></p>

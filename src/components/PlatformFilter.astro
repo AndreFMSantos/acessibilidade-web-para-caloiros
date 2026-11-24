@@ -1,25 +1,39 @@
 ---
-interface Props { corrected: boolean }
+interface Props {
+  corrected: boolean;
+}
 const { corrected } = Astro.props;
 const platforms = ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'];
 ---
+
 <div class="platform-filter">
   {corrected ? (
     <>
       <label for="platform">Plataforma</label>
       <select id="platform" data-platform-select>
-        {platforms.map((platform) => <option value={platform}>{platform}</option>)}
+        {platforms.map((platform) => (
+          <option value={platform}>{platform}</option>
+        ))}
       </select>
     </>
   ) : (
     <>
       <p id="platform-label">Plataforma</p>
       <!-- Barreira deliberada para a aula: apenas eventos de rato, sem foco nem teclado. -->
-      <div role="button" aria-labelledby="platform-label platform-value" class="fake-select" data-platform-trigger>
-        <span id="platform-value">Todas</span><span aria-hidden="true">⌄</span>
+      <!-- biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useSemanticElements: Barreira deliberada para a demonstração. -->
+      <div
+        role="button"
+        aria-labelledby="platform-label platform-value"
+        class="fake-select"
+        data-platform-trigger
+      >
+        <span id="platform-value">Todas</span>
+        <span aria-hidden="true">⌄</span>
       </div>
       <div class="platform-options" data-platform-options hidden>
-        {platforms.map((platform) => <div data-platform-option={platform}>{platform}</div>)}
+        {platforms.map((platform) => (
+          <div data-platform-option={platform}>{platform}</div>
+        ))}
       </div>
     </>
   )}

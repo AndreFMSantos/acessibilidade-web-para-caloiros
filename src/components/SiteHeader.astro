@@ -1,8 +1,16 @@
 ---
-interface Props { catalogue: string }
+interface Props {
+  catalogue: string;
+}
 const { catalogue } = Astro.props;
 ---
+
 <header class="shell site-header">
-      <a class="brand" href={catalogue} aria-label="Checkpoint — início">CHECKPOINT<span aria-hidden="true">↗</span></a>
-      <nav aria-label="Principal"><a href={`${catalogue}#catalogue`}>Explorar jogos</a><button type="button" id="open-cart">Carrinho <span data-cart-count>0</span></button></nav>
-    </header>
+  <a class="brand" href={catalogue} aria-label="Checkpoint — início"
+    >CHECKPOINT<span aria-hidden="true">↗</span></a
+  >
+  <nav aria-label="Principal">
+    <a href={`${catalogue}#catalogue`}>Explorar jogos</a
+    ><button type="button" id="open-cart">Carrinho <span data-cart-count>0</span></button>
+  </nav>
+</header>

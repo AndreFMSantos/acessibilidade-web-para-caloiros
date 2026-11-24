@@ -1,10 +1,17 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
-import Hero from './Hero.astro';
 import GameCatalogue from './GameCatalogue.astro';
-interface Props { filter?: boolean; contrast?: boolean; status?: boolean; version?: string }
+import Hero from './Hero.astro';
+
+interface Props {
+  filter?: boolean;
+  contrast?: boolean;
+  status?: boolean;
+  version?: string;
+}
 const { filter = false, contrast = false, status = false, version = '' } = Astro.props;
 ---
+
 <SiteLayout contrast={contrast} version={version}>
   <Hero version={version} />
   <GameCatalogue filter={filter} status={status} version={version} />

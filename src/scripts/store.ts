@@ -1,8 +1,8 @@
 import { loadShop } from './api';
-import { initCatalogue } from './catalogue';
 import { initCart } from './cart';
-import { updateProduct } from './product';
+import { initCatalogue } from './catalogue';
 import { showError } from './dom';
+import { updateProduct } from './product';
 
 async function initShop() {
   try {
@@ -13,7 +13,9 @@ async function initShop() {
   } catch {
     const results = document.querySelector('#results');
     if (results) results.textContent = 'Catálogo indisponível.';
-    showError('Não conseguimos carregar a oferta. Confirma que a API está a funcionar e volta a carregar a página.');
+    showError(
+      'Não conseguimos carregar a oferta. Confirma que a API está a funcionar e volta a carregar a página.',
+    );
   }
 }
 void initShop();
