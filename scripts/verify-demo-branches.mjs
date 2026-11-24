@@ -23,6 +23,7 @@ const allowedDifferences = new Set([
   'src/components/CartFeedback.astro',
   'src/components/PlatformFilter.astro',
   'src/components/SiteHeader.astro',
+  'src/scripts/cart.ts',
   'src/scripts/catalogue.ts',
   'src/scripts/platform-filter.ts',
   'src/styles.css',
@@ -44,5 +45,5 @@ for (const branch of branches) {
   assert.ok(entry.split('\n').length <= 30, `${branch}: inicializador deixou de ser pequeno`);
 }
 console.log(
-  'As três branches têm a mesma estrutura. As diferenças inicial/resolvida estão limitadas aos seis ficheiros dos cinco exemplos.',
+  'As três branches têm a mesma estrutura. As diferenças inicial/resolvida estão limitadas aos sete ficheiros dos cinco exemplos.',
 );

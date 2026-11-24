@@ -35,9 +35,9 @@ npm run dev
 
 O agente deve trabalhar nessa branch sem consultar as soluções. As soluções continuam acessíveis no histórico Git e nas outras branches: esta separação não é uma barreira de acesso. Para comparar as cinco correções: `git diff demo/inicial..demo/resolvida -- src`. Para recuperação, parar os servidores e abrir a branch resolvida num checkout limpo; preservar primeiro quaisquer alterações do ensaio.
 
-Os dois exemplos adicionais existem apenas nas branches da demonstração: o carrinho usa um ícone sem nome acessível na inicial e `aria-label="Abrir carrinho"` na resolvida; os botões têm o contorno de foco removido na inicial e mantêm o estilo `:focus-visible` na resolvida. O ícone e o contador visual estão ocultos da árvore de acessibilidade nas duas branches, para que não substituam o nome da ação. As rotas da `main` continuam a comparar os três problemas originais.
+Os dois exemplos adicionais existem apenas nas branches da demonstração: o carrinho usa um ícone sem nome acessível na inicial e um nome acessível com a ação e o número de jogos na resolvida; os botões têm o contorno de foco removido na inicial e mantêm o estilo `:focus-visible` na resolvida. O ícone e o contador visual estão ocultos da árvore de acessibilidade nas duas branches. As rotas da `main` continuam a comparar os três problemas originais.
 
-Verificado no browser: Tab chega ao botão do carrinho nas duas branches; na inicial, o contorno calculado é `none`; na resolvida, é uma linha sólida de 3 px e o nome “Abrir carrinho” aparece na árvore de acessibilidade. `check` e `build` passaram em ambas. O ensaio com VoiceOver continua pendente.
+Verificado no browser: Tab chega ao botão do carrinho nas duas branches; na inicial, o contorno calculado é `none`; na resolvida, é uma linha sólida de 3 px. `check` e `build` passaram em ambas. O ensaio com VoiceOver continua pendente.
 
 | Endereço | Alterações face à inicial |
 | --- | --- |
