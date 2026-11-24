@@ -18,6 +18,23 @@ O comando `dev` inicia os dois processos. Ctrl+C termina ambos. A API está limi
 
 ## Versões preparadas
 
+Para a correção com um coding agent, usar as branches:
+
+- `demo/inicial`: loja com as três barreiras, sem rotas ou implementações corrigidas no código de trabalho.
+- `demo/resolvida`: a mesma loja, com filtro nativo, preço com contraste corrigido e confirmação do carrinho com `role="status"`.
+- `main`: mantém as rotas de comparação abaixo e a documentação da aula.
+
+Antes da aula, parar os servidores, mudar para `demo/inicial` e criar uma branch para o ensaio:
+
+```sh
+git switch demo/inicial
+git switch -c demo/ensaio
+npm run reset
+npm run dev
+```
+
+O agente deve trabalhar nessa branch sem consultar as soluções. As soluções continuam acessíveis no histórico Git e nas outras branches: esta separação não é uma barreira de acesso. Para comparar só as três correções: `git diff demo/inicial..demo/resolvida -- src`. Para recuperação, parar os servidores e abrir a branch resolvida num checkout limpo; preservar primeiro quaisquer alterações do ensaio.
+
 | Endereço | Alterações face à inicial |
 | --- | --- |
 | `/` | Três barreiras deliberadas |
