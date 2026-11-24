@@ -1,31 +1,17 @@
 ---
 import PlatformFilter from './PlatformFilter.astro';
-import '../styles.css';
-interface Props { filter?: boolean; contrast?: boolean; status?: boolean }
-const { filter = false, contrast = false, status = false } = Astro.props;
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { productPath } from '../lib/versions';
+interface Props { filter?: boolean; contrast?: boolean; status?: boolean; version?: string }
+const { filter = false, contrast = false, status = false, version = '' } = Astro.props;
 ---
-<!doctype html>
-<html lang="pt-PT">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
-    <meta name="description" content="Checkpoint: loja de videojogos de demonstração para a aula de acessibilidade no ISEC." />
-    <title>Checkpoint — O teu próximo jogo</title>
-  </head>
-  <body class:list={[{ 'contrast-corrected': contrast }]}>
-    <a class="skip-link" href="#catalogue">Saltar para os jogos</a>
-    <header class="shell site-header">
-      <a class="brand" href="/" aria-label="Checkpoint — início">CHECKPOINT<span aria-hidden="true">↗</span></a>
-      <nav aria-label="Principal"><a href="#catalogue">Explorar jogos</a><button type="button" id="open-cart">Carrinho <span data-cart-count>0</span></button></nav>
-    </header>
-    <main>
+<SiteLayout contrast={contrast} version={version}>
       <section class="shell hero" aria-labelledby="hero-title">
         <p class="eyebrow">UM JOGO. OUTRO MUNDO.</p>
         <h1 id="hero-title">O teu próximo<br />«só mais uma».</h1>
         <p class="lead">Da próxima expedição à última tentativa.<br />Encontra o jogo para a tua plataforma.</p>
         <a class="hero-link" href="#catalogue">Encontrar o próximo jogo <span aria-hidden="true">↓</span></a>
-        <div class="hero-art"><img src="/images/gta-vi.jpg" alt="Arte promocional de Grand Theft Auto VI" width="2560" height="1440" fetchpriority="high" /><p>EM DESTAQUE <strong>Grand Theft Auto VI</strong><span>Bem-vindo a Leonida.</span></p></div>
+        <div class="hero-art"><a href={productPath('gta-vi-ps5', version)} aria-label="Ver Grand Theft Auto VI para PlayStation 5"><img src="/images/gta-vi.jpg" alt="Arte promocional de Grand Theft Auto VI" width="2560" height="1440" fetchpriority="high" /></a><p>EM DESTAQUE <strong>Grand Theft Auto VI</strong><span>Bem-vindo a Leonida.</span></p></div>
       </section>
       <section class="shell catalogue" id="catalogue" aria-labelledby="catalogue-title">
         <div class="section-heading"><h2 id="catalogue-title">Escolhe a próxima aventura.</h2><span class="eyebrow">SELEÇÃO CHECKPOINT / 2026</span></div>
@@ -40,12 +26,5 @@ const { filter = false, contrast = false, status = false } = Astro.props;
         <p id="cart-status" role={status ? 'status' : undefined}></p>
         <p id="api-error" role="alert" hidden></p>
       </section>
-    </main>
-    <footer class="shell footer"><p class="brand">CHECKPOINT↗</p><p>Loja de demonstração · ISEC<br />Preços e ofertas fictícios. Não são efetuados pagamentos.</p><p>Imagens dos respetivos titulares.<br />Sem relação comercial com as editoras.</p></footer>
-    <dialog id="cart" aria-labelledby="cart-title">
-      <div class="dialog-heading"><h2 id="cart-title">O teu carrinho</h2><button type="button" id="close-cart">Fechar</button></div>
-      <ul id="cart-items"></ul><p id="cart-total"></p><p class="demo-note">Demonstração: não existe pagamento.</p>
-    </dialog>
-    <script>import '../scripts/store';</script>
-  </body>
-</html>
+
+</SiteLayout>

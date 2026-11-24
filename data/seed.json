@@ -6,7 +6,9 @@
       "platform": "PlayStation 5",
       "genre": "Ação / Mundo aberto",
       "price": 79.99,
-      "image": "/images/gta-vi.jpg"
+      "image": "/images/gta-vi.jpg",
+      "description": "Explora Leonida com Jason e Lucia numa aventura de ação em mundo aberto.",
+      "edition": "Jogo base"
     },
     {
       "id": "fortnite-pc",
@@ -14,7 +16,9 @@
       "platform": "PC",
       "genre": "Ação / Battle Royale",
       "price": 0,
-      "image": "/images/fortnite.jpg"
+      "image": "/images/fortnite.jpg",
+      "description": "Junta os teus amigos em partidas Battle Royale e descobre diferentes experiências de jogo.",
+      "edition": "Jogo base gratuito"
     },
     {
       "id": "minecraft-pc",
@@ -22,7 +26,9 @@
       "platform": "PC",
       "genre": "Sandbox / Java e Bedrock",
       "price": 29.99,
-      "image": "/images/minecraft.jpg"
+      "image": "/images/minecraft.jpg",
+      "description": "Constrói, explora e sobrevive em mundos feitos de blocos. Esta oferta reúne as edições Java e Bedrock para PC.",
+      "edition": "Java e Bedrock"
     },
     {
       "id": "mw4-pc",
@@ -30,7 +36,9 @@
       "platform": "PC",
       "genre": "Ação / FPS",
       "price": 79.99,
-      "image": "/images/modern-warfare-4.jpg"
+      "image": "/images/modern-warfare-4.jpg",
+      "description": "Entra na campanha de Modern Warfare 4 e enfrenta outros jogadores nos modos multijogador.",
+      "edition": "Jogo base"
     },
     {
       "id": "fortnite-ps5",
@@ -38,7 +46,9 @@
       "platform": "PlayStation 5",
       "genre": "Ação / Battle Royale",
       "price": 0,
-      "image": "/images/fortnite.jpg"
+      "image": "/images/fortnite.jpg",
+      "description": "Junta os teus amigos em partidas Battle Royale e descobre diferentes experiências de jogo.",
+      "edition": "Jogo base gratuito"
     },
     {
       "id": "minecraft-switch",
@@ -46,7 +56,9 @@
       "platform": "Nintendo Switch",
       "genre": "Sandbox / Bedrock",
       "price": 29.99,
-      "image": "/images/minecraft.jpg"
+      "image": "/images/minecraft.jpg",
+      "description": "Constrói, explora e sobrevive em mundos feitos de blocos, sozinho ou com amigos.",
+      "edition": "Bedrock"
     }
   ],
   "cart": []

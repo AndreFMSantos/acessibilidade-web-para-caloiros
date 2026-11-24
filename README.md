@@ -40,6 +40,16 @@ As correções isoladas mantêm as outras duas barreiras. O carrinho é partilha
 
 O carrinho modal usa `dialog.showModal()`. Permite exemplificar o APG: foco, Tab/Shift+Tab, Escape e retorno ao controlo de origem. Não faz parte das barreiras deliberadas.
 
+## Páginas de detalhes
+
+As capas e os títulos do catálogo abrem uma página por oferta, por exemplo `/jogos/minecraft-pc`. Cada versão tem as suas páginas, como `/corrigida/jogos/minecraft-pc`, preservando as correções dessa versão. Os detalhes incluem descrição, plataforma, edição, preço, ligação às outras plataformas e adição ao mesmo carrinho da API.
+
+Ao abrir um produto, a pesquisa, ordenação e plataforma ficam guardadas no `sessionStorage` do separador, por versão. O catálogo recupera esse estado no regresso. O carrinho continua guardado exclusivamente na API.
+
+Usamos [View Transitions nativas entre documentos](https://docs.astro.build/en/guides/view-transitions/), com ligações HTML normais e sem `ClientRouter`. A animação dura 180 ms e é desativada com `prefers-reduced-motion: reduce`. Browsers sem suporte mantêm a navegação normal. As capas têm nomes de transição por oferta; o efeito de continuidade depende de a imagem estar renderizada no destino.
+
+As rotas e ligações entre plataformas são geradas a partir de `data/seed.json`. Os dados visíveis e o carrinho são carregados da API. Acrescentar ofertas ou alterar as plataformas exige atualizar o seed e voltar a gerar a build.
+
 ## Verificação
 
 ```sh
@@ -51,7 +61,9 @@ Para pré-visualizar a build, manter `npm run api` num terminal e executar `npm 
 
 Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtro corrigido com teclado (seis ofertas, três para PC), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
 
-`npm run check` terminou sem erros, avisos ou sugestões; `npm run build` gerou as cinco rotas. Ainda falta o ensaio com VoiceOver, a extensão escolhida e o projetor da sala. Não foi verificado o anúncio sonoro da região de estado.
+Também foram verificados: abertura dos detalhes por teclado, adição de Minecraft para PC, combinação correta no carrinho, regresso pelo histórico com filtro PC e carrinho preservados, e mudança para a oferta Nintendo Switch sem sair da versão corrigida.
+
+`npm run check` terminou sem erros, avisos ou sugestões; `npm run build` gerou 35 rotas: cinco catálogos e 30 páginas de detalhes. Ainda falta o ensaio com VoiceOver, a extensão escolhida e o projetor da sala. Não foi verificado o anúncio sonoro da região de estado nem o efeito animado em todos os browsers.
 
 ## Base e imagens
 

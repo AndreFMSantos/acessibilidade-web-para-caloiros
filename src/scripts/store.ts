@@ -1,4 +1,5 @@
 export {};
+import { productPath } from '../lib/versions';
 
 interface Game {
   id: string;
@@ -7,6 +8,8 @@ interface Game {
   genre: string;
   price: number;
   image: string;
+  description: string;
+  edition: string;
 }
 interface CartItem { id: string; gameId: string }
 
@@ -16,10 +19,10 @@ function element<T extends Element>(selector: string, constructor: { new (): T }
   return node;
 }
 
-const list = element('#games', HTMLUListElement);
-const search = element('#search', HTMLInputElement);
-const sort = element('#sort', HTMLSelectElement);
-const results = element('#results', HTMLParagraphElement);
+const list = document.querySelector<HTMLUListElement>('#games');
+const search = document.querySelector<HTMLInputElement>('#search');
+const sort = document.querySelector<HTMLSelectElement>('#sort');
+const results = document.querySelector<HTMLParagraphElement>('#results');
 const status = element('#cart-status', HTMLParagraphElement);
 const error = element('#api-error', HTMLParagraphElement);
 const cart = element('#cart', HTMLDialogElement);
@@ -28,6 +31,8 @@ const euro = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR'
 let games: Game[] = [];
 let items: CartItem[] = [];
 let platform = 'Todas';
+const version = document.body.dataset.version ?? '';
+const gameId = document.body.dataset.gameId;
 
 async function request(path: string, options?: RequestInit): Promise<unknown> {
   const response = await fetch(`/api/${path}`, options);
@@ -41,6 +46,8 @@ function isGame(value: unknown): value is Game {
     && 'platform' in value && typeof value.platform === 'string'
     && 'genre' in value && typeof value.genre === 'string'
     && 'price' in value && typeof value.price === 'number' && Number.isFinite(value.price) && value.price >= 0
+    && 'description' in value && typeof value.description === 'string'
+    && 'edition' in value && typeof value.edition === 'string'
     && 'image' in value && typeof value.image === 'string' && /^\/images\/[a-z0-9-]+\.(jpg|png|webp)$/.test(value.image);
 }
 function isItem(value: unknown): value is CartItem {
@@ -55,6 +62,7 @@ function text<K extends keyof HTMLElementTagNameMap>(tag: K, content: string, cl
 }
 function showError(message: string) { error.textContent = message; error.hidden = false; }
 function renderGames() {
+  if (!list || !search || !sort || !results) return;
   const query = search.value.trim().toLocaleLowerCase('pt-PT');
   const visible = games.filter((game) => (platform === 'Todas' || game.platform === platform)
     && game.title.toLocaleLowerCase('pt-PT').includes(query));
@@ -66,9 +74,18 @@ function renderGames() {
     image.src = game.image;
     image.alt = '';
     image.loading = 'lazy';
-    article.append(image);
+    image.style.viewTransitionName = `cover-${game.id}`;
+    const cover = document.createElement('a');
+    cover.href = productPath(game.id, version);
+    cover.setAttribute('aria-label', `Ver ${game.title} para ${game.platform}`);
+    cover.append(image);
+    article.append(cover);
     const meta = text('div', '', 'game-meta');
-    meta.append(text('p', `${game.platform} / ${game.genre}`, 'game-category'), text('h3', game.title));
+    const heading = document.createElement('h3');
+    const link = text('a', game.title);
+    link.href = productPath(game.id, version);
+    heading.append(link);
+    meta.append(text('p', `${game.platform} / ${game.genre}`, 'game-category'), heading);
     const row = text('div', '', 'purchase');
     const button = text('button', 'Adicionar ao carrinho');
     button.type = 'button';
@@ -123,8 +140,8 @@ async function add(game: Game, button: HTMLButtonElement) {
   finally { button.removeAttribute('aria-disabled'); }
 }
 function setPlatform(value: string) { platform = value; renderGames(); }
-search.addEventListener('input', renderGames);
-sort.addEventListener('change', renderGames);
+search?.addEventListener('input', renderGames);
+sort?.addEventListener('change', renderGames);
 document.querySelector('[data-platform-select]')?.addEventListener('change', (event) => {
   if (event.target instanceof HTMLSelectElement) setPlatform(event.target.value);
 });
@@ -154,6 +171,56 @@ async function load() {
     if (!Array.isArray(catalogue) || !catalogue.every(isGame) || !Array.isArray(cartData) || !cartData.every(isItem)) throw new Error('Dados inválidos');
     games = catalogue; items = cartData;
     renderGames(); renderCart();
-  } catch { results.textContent = 'Catálogo indisponível.'; showError('Não conseguimos carregar a loja. Inicia a API com npm run api e volta a carregar a página.'); }
+    if (gameId) {
+      const game = games.find((game) => game.id === gameId);
+      if (!game) throw new Error('Oferta indisponível');
+      element('#product-title', HTMLHeadingElement).textContent = game.title;
+      element('#product-description', HTMLParagraphElement).textContent = game.description;
+      element('#product-platform', HTMLElement).textContent = game.platform;
+      element('#product-edition', HTMLElement).textContent = game.edition;
+      element('#product-genre', HTMLParagraphElement).textContent = game.genre;
+      element('#product-image', HTMLImageElement).src = game.image;
+      element('#product-price', HTMLParagraphElement).textContent = game.price === 0 ? 'Grátis' : euro.format(game.price);
+      document.title = `${game.title} · ${game.platform} — Checkpoint`;
+      const button = element('#product-add', HTMLButtonElement);
+      button.disabled = false;
+      button.addEventListener('click', () => void add(game, button));
+    }
+    restoreCatalogue();
+  } catch {
+    if (results) results.textContent = 'Catálogo indisponível.';
+    showError('Não conseguimos carregar a oferta. Confirma que a API está a funcionar e volta a carregar a página.');
+  }
+}
+
+// Guardar só o estado da pesquisa deste separador ao abrir um produto.
+// O carrinho continua exclusivamente na API.
+document.addEventListener('click', (event) => {
+  if (!list || !search || !sort || !(event.target instanceof Element)) return;
+  const link = event.target.closest('a');
+  if (!link?.pathname.includes('/jogos/')) return;
+  try {
+    sessionStorage.setItem(`catalogue:${version}`, JSON.stringify({ query: search.value, sort: sort.value, platform }));
+  } catch { /* Navegação continua mesmo quando o armazenamento não está disponível. */ }
+});
+function restoreCatalogue() {
+  if (!list || !search || !sort) return;
+  try {
+    const raw = sessionStorage.getItem(`catalogue:${version}`);
+    if (!raw) return;
+    const saved: unknown = JSON.parse(raw);
+    if (typeof saved !== 'object' || saved === null) return;
+    if ('query' in saved && typeof saved.query === 'string') search.value = saved.query;
+    if ('sort' in saved && (saved.sort === 'featured' || saved.sort === 'price')) sort.value = saved.sort;
+    if ('platform' in saved && typeof saved.platform === 'string'
+      && ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)) {
+      platform = saved.platform;
+      const select = document.querySelector<HTMLSelectElement>('[data-platform-select]');
+      if (select) select.value = platform;
+      const value = document.querySelector('#platform-value');
+      if (value) value.textContent = platform;
+    }
+    renderGames();
+  } catch { /* Sem armazenamento, o catálogo abre no estado inicial. */ }
 }
 void load();

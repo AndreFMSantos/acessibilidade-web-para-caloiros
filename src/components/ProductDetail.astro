@@ -1,0 +1,30 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import seed from '../../data/seed.json';
+import { cataloguePath, productPath } from '../lib/versions';
+interface Props { game: typeof seed.games[number]; version: string; contrast: boolean; status: boolean }
+const { game, version, contrast, status } = Astro.props;
+const catalogue = cataloguePath(version);
+const offers = seed.games.filter((offer) => offer.title === game.title);
+const price = game.price === 0 ? 'Grátis' : new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(game.price);
+---
+<SiteLayout title={`${game.title} · ${game.platform} — Checkpoint`} description={game.description} contrast={contrast} version={version} gameId={game.id}>
+  <div class="shell product-page">
+    <nav class="breadcrumbs" aria-label="Percurso"><a href={`${catalogue}#catalogue`}>Todos os jogos</a><span aria-hidden="true">/</span><span aria-current="page">{game.title}</span></nav>
+    <article class="product-detail">
+      <div class="product-art"><img id="product-image" src={game.image} alt="" width="1920" height="1080" style={`view-transition-name: cover-${game.id}`} /></div>
+      <div class="product-summary">
+        <p class="eyebrow" id="product-genre">{game.genre}</p>
+        <h1 id="product-title">{game.title}</h1>
+        <p class="product-description" id="product-description">{game.description}</p>
+        <dl class="product-specs"><div><dt>Plataforma</dt><dd id="product-platform">{game.platform}</dd></div><div><dt>Edição</dt><dd id="product-edition">{game.edition}</dd></div></dl>
+        {offers.length > 1 && <nav class="other-platforms" aria-label="Escolher plataforma"><p>Também disponível para</p>{offers.filter((offer) => offer.id !== game.id).map((offer) => <a href={productPath(offer.id, version)}>{offer.platform}</a>)}</nav>}
+        <div class="detail-purchase"><p class="price" id="product-price">{price}</p><button type="button" id="product-add" disabled>Adicionar ao carrinho</button></div>
+        <p id="cart-status" role={status ? 'status' : undefined}></p>
+        <p id="api-error" role="alert" hidden></p>
+        <p class="demo-note">Oferta de demonstração. Não é efetuado qualquer pagamento.</p>
+      </div>
+    </article>
+    <section class="purchase-information" aria-labelledby="purchase-info"><h2 id="purchase-info">Antes de escolher</h2><p>A plataforma e a edição desta oferta estão indicadas junto do preço. O carrinho guarda exatamente essa combinação.</p><p>Esta é uma loja fictícia para uma aula de acessibilidade. Não são entregues jogos, chaves de ativação ou conteúdos digitais.</p></section>
+  </div>
+</SiteLayout>
