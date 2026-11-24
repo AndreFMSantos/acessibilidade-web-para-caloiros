@@ -1,13 +1,13 @@
 ---
 import '../styles.css';
 import { cataloguePath } from '../lib/versions';
-interface Props { title?: string; description?: string; contrast?: boolean; version?: string; gameId?: string }
+interface Props { title?: string; description?: string; gameId?: string }
 const {
   title = 'Checkpoint — O teu próximo jogo',
   description = 'Checkpoint: loja de videojogos de demonstração para a aula de acessibilidade no ISEC.',
-  contrast = false, version = '', gameId,
+  gameId,
 } = Astro.props;
-const catalogue = cataloguePath(version);
+const catalogue = cataloguePath();
 ---
 <!doctype html>
 <html lang="pt-PT">
@@ -18,7 +18,7 @@ const catalogue = cataloguePath(version);
     <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body class:list={[{ 'contrast-corrected': contrast }]} data-version={version} data-game-id={gameId}>
+  <body data-game-id={gameId}>
     <a class="skip-link" href="#main-content">Saltar para o conteúdo</a>
     <header class="shell site-header">
       <a class="brand" href={catalogue} aria-label="Checkpoint — início">CHECKPOINT<span aria-hidden="true">↗</span></a>

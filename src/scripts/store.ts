@@ -31,7 +31,6 @@ const euro = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR'
 let games: Game[] = [];
 let items: CartItem[] = [];
 let platform = 'Todas';
-const version = document.body.dataset.version ?? '';
 const gameId = document.body.dataset.gameId;
 
 async function request(path: string, options?: RequestInit): Promise<unknown> {
@@ -76,14 +75,14 @@ function renderGames() {
     image.loading = 'lazy';
     image.style.viewTransitionName = `cover-${game.id}`;
     const cover = document.createElement('a');
-    cover.href = productPath(game.id, version);
+    cover.href = productPath(game.id);
     cover.setAttribute('aria-label', `Ver ${game.title} para ${game.platform}`);
     cover.append(image);
     article.append(cover);
     const meta = text('div', '', 'game-meta');
     const heading = document.createElement('h3');
     const link = text('a', game.title);
-    link.href = productPath(game.id, version);
+    link.href = productPath(game.id);
     heading.append(link);
     meta.append(text('p', `${game.platform} / ${game.genre}`, 'game-category'), heading);
     const row = text('div', '', 'purchase');
@@ -134,7 +133,6 @@ async function add(game: Game, button: HTMLButtonElement) {
     if (!isItem(result)) throw new Error('Resposta inválida');
     items.push(result);
     renderCart();
-    // A versão inicial altera só o texto visível. /carrinho acrescenta role=status à região já existente.
     status.textContent = `${game.title} foi adicionado ao carrinho. ${items.length} ${items.length === 1 ? 'jogo' : 'jogos'} no total.`;
   } catch { showError('Não foi possível adicionar o jogo. Confirma que a API está a funcionar e tenta novamente.'); }
   finally { button.removeAttribute('aria-disabled'); }
@@ -142,9 +140,6 @@ async function add(game: Game, button: HTMLButtonElement) {
 function setPlatform(value: string) { platform = value; renderGames(); }
 search?.addEventListener('input', renderGames);
 sort?.addEventListener('change', renderGames);
-document.querySelector('[data-platform-select]')?.addEventListener('change', (event) => {
-  if (event.target instanceof HTMLSelectElement) setPlatform(event.target.value);
-});
 const trigger = document.querySelector('[data-platform-trigger]');
 const options = document.querySelector('[data-platform-options]');
 if (trigger instanceof HTMLElement && options instanceof HTMLElement) {
@@ -200,13 +195,13 @@ document.addEventListener('click', (event) => {
   const link = event.target.closest('a');
   if (!link?.pathname.includes('/jogos/')) return;
   try {
-    sessionStorage.setItem(`catalogue:${version}`, JSON.stringify({ query: search.value, sort: sort.value, platform }));
+    sessionStorage.setItem('catalogue', JSON.stringify({ query: search.value, sort: sort.value, platform }));
   } catch { /* Navegação continua mesmo quando o armazenamento não está disponível. */ }
 });
 function restoreCatalogue() {
   if (!list || !search || !sort) return;
   try {
-    const raw = sessionStorage.getItem(`catalogue:${version}`);
+    const raw = sessionStorage.getItem('catalogue');
     if (!raw) return;
     const saved: unknown = JSON.parse(raw);
     if (typeof saved !== 'object' || saved === null) return;
@@ -215,8 +210,6 @@ function restoreCatalogue() {
     if ('platform' in saved && typeof saved.platform === 'string'
       && ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)) {
       platform = saved.platform;
-      const select = document.querySelector<HTMLSelectElement>('[data-platform-select]');
-      if (select) select.value = platform;
       const value = document.querySelector('#platform-value');
       if (value) value.textContent = platform;
     }

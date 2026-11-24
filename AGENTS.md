@@ -1,7 +1,7 @@
 # Loja de demonstração ISEC
 
-Esta aplicação tem três barreiras deliberadas: filtro sem teclado, preço de baixo contraste e confirmação do carrinho sem região de estado. Não corrigir barreiras fora do pedido concreto. O objetivo é demonstrar investigação e verificação, não gerar novos problemas.
+Loja fictícia em Astro e TypeScript, com API JSON Server local. Fazer apenas as alterações pedidas pelo apresentador; manter os restantes comportamentos e o aspeto da loja.
 
-Preferir HTML nativo. Manter as correções isoladas nas rotas preparadas. Não introduzir pagamentos, contas, IA dentro da loja ou novos frameworks. A IA é usada como ferramenta de desenvolvimento durante a aula.
+Preferir HTML nativo e APIs do browser. Não introduzir pagamentos, contas, IA dentro da loja ou novos frameworks. A IA é usada como ferramenta de desenvolvimento durante a aula.
 
-Não afirmar conformidade WCAG da aplicação com base em testes automáticos. Verificar teclado e VoiceOver no Mac do apresentador. As descrições da aula e os dados de jogos são em pt-PT.
+Verificar com `npm run check` e `npm run build`. Confirmar os comportamentos relevantes com teclado e VoiceOver no Mac do apresentador. Não afirmar conformidade WCAG com base em testes automáticos. Usar pt-PT.

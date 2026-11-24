@@ -1,6 +1,6 @@
 # Checkpoint — Acessibilidade Web para Caloiros
 
-Loja fictícia para a aula no ISEC. Astro, TypeScript e JavaScript do browser. API REST real em JSON Server, com persistência em `data/db.json`. Não existem pagamentos, contas ou serviços comerciais.
+Loja fictícia para a aula no ISEC. Astro, TypeScript e JavaScript do browser, com API REST em JSON Server e persistência em `data/db.json`. Não existem pagamentos ou contas.
 
 ## Arrancar
 
@@ -14,56 +14,20 @@ npm run dev
 
 Loja: http://127.0.0.1:4321 · API: http://127.0.0.1:3001/games
 
-O comando `dev` inicia os dois processos. Ctrl+C termina ambos. A API está limitada ao computador local. Não alojar publicamente este JSON Server, que não inclui autenticação.
+Ctrl+C termina ambos os processos. A API está limitada ao computador local e não inclui autenticação. Não a alojar publicamente nem guardar dados pessoais.
 
-## Versões preparadas
+O catálogo está em `/` e as seis páginas de detalhes em `/jogos/<id>`. A pesquisa e os filtros são guardados no separador ao abrir um produto; o carrinho fica na API. `npm run reset` restaura os dados e esvazia o carrinho. Recarregar depois o browser.
 
-| Endereço | Alterações face à inicial |
-| --- | --- |
-| `/` | Três barreiras deliberadas |
-| `/filtro` | Filtro nativo com rótulo e suporte de teclado |
-| `/contraste` | Contraste do preço corrigido |
-| `/carrinho` | Região existente com `role="status"` |
-| `/corrigida` | As três correções |
+As rotas são geradas a partir de `data/seed.json`. Ao acrescentar ofertas, atualizar o seed e gerar novamente a build. As View Transitions nativas respeitam a preferência de movimento reduzido; browsers sem suporte usam navegação normal.
 
-As correções isoladas mantêm as outras duas barreiras. O carrinho é partilhado entre as versões e guardado no servidor, não no localStorage. `npm run reset` restaura apenas os dados da demonstração e esvazia o carrinho; recarregar depois o browser. Não guardar dados pessoais neste ficheiro.
-
-## Percurso da demonstração
-
-1. Na inicial, escolher PC com rato e adicionar um jogo.
-2. Repetir com teclado: o filtro não recebe foco. Inspecionar a `div role="button"` em `src/components/PlatformFilter.astro`.
-3. Pedir ao agente uma correção localizada que prefira HTML nativo. Não ler as correções preparadas se quiseres demonstrar a investigação do agente.
-4. Se necessário, abrir `/filtro` como recuperação. Tab chega ao select; escolher PC reduz seis ofertas a três.
-5. Comparar `/` e `/contraste`. O preço muda de #aaa (baixo contraste) para #101010; o fundo é #f4f4f2.
-6. Comparar `/` e `/carrinho` com VoiceOver: a mensagem visível permanece no mesmo local; a correção acrescenta semântica de região de estado. Confirmar o anúncio no Mac real.
-7. Abrir `/corrigida`, repetir a tarefa e avaliar novamente. Três correções não demonstram conformidade WCAG do produto inteiro.
-
-O carrinho modal usa `dialog.showModal()`. Permite exemplificar o APG: foco, Tab/Shift+Tab, Escape e retorno ao controlo de origem. Não faz parte das barreiras deliberadas.
-
-## Páginas de detalhes
-
-As capas e os títulos do catálogo abrem uma página por oferta, por exemplo `/jogos/minecraft-pc`. Cada versão tem as suas páginas, como `/corrigida/jogos/minecraft-pc`, preservando as correções dessa versão. Os detalhes incluem descrição, plataforma, edição, preço, ligação às outras plataformas e adição ao mesmo carrinho da API.
-
-Ao abrir um produto, a pesquisa, ordenação e plataforma ficam guardadas no `sessionStorage` do separador, por versão. O catálogo recupera esse estado no regresso. O carrinho continua guardado exclusivamente na API.
-
-Usamos [View Transitions nativas entre documentos](https://docs.astro.build/en/guides/view-transitions/), com ligações HTML normais e sem `ClientRouter`. A animação dura 180 ms e é desativada com `prefers-reduced-motion: reduce`. Browsers sem suporte mantêm a navegação normal. As capas têm nomes de transição por oferta; o efeito de continuidade depende de a imagem estar renderizada no destino.
-
-As rotas e ligações entre plataformas são geradas a partir de `data/seed.json`. Os dados visíveis e o carrinho são carregados da API. Acrescentar ofertas ou alterar as plataformas exige atualizar o seed e voltar a gerar a build.
-
-## Verificação
+## Verificar
 
 ```sh
 npm run check
 npm run build
 ```
 
-Para pré-visualizar a build, manter `npm run api` num terminal e executar `npm run preview` noutro. O proxy `/api` funciona no desenvolvimento e no preview local; um alojamento estático exigiria configuração própria da API.
-
-Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtro corrigido com teclado (seis ofertas, três para PC), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
-
-Também foram verificados: abertura dos detalhes por teclado, adição de Minecraft para PC, combinação correta no carrinho, regresso pelo histórico com filtro PC e carrinho preservados, e mudança para a oferta Nintendo Switch sem sair da versão corrigida.
-
-`npm run check` terminou sem erros, avisos ou sugestões; `npm run build` gerou 35 rotas: cinco catálogos e 30 páginas de detalhes. Ainda falta o ensaio com VoiceOver, a extensão escolhida e o projetor da sala. Não foi verificado o anúncio sonoro da região de estado nem o efeito animado em todos os browsers.
+Para testar a build, executar `npm run api` e, noutro terminal, `npm run preview`. O proxy da API funciona em desenvolvimento e no preview local. Um alojamento estático exige configuração própria da API.
 
 ## Base e imagens
 
