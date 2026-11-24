@@ -88,6 +88,18 @@ Também foram verificados: abertura dos detalhes por teclado, adição de Minecr
 
 Para verificar a estrutura das três branches e os ficheiros em que as versões da demonstração diferem: `npm run check:branches`. Esta verificação usa as branches locais e deve ser executada na `main`. Não substitui os testes de comportamento.
 
+## Testes de acessibilidade
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+npm run test:e2e:ui
+```
+
+O primeiro comando instala o Chromium usado pelos testes. `test:e2e` executa o axe em cada catálogo e página de detalhes; `test:e2e:ui` abre a interface interativa do Playwright. Os testes usam os dados do seed e uma API simulada, sem alterar o carrinho. O servidor de teste usa a porta 4322.
+
+As violações detetadas fazem os testes falhar, incluindo o baixo contraste deliberado dos preços. Os resultados completos do axe ficam anexados aos testes. Estes testes automáticos não demonstram conformidade WCAG nem substituem a verificação de teclado e VoiceOver.
+
 ## Lint e formatação
 
 ```sh

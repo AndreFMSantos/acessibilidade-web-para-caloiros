@@ -12,6 +12,8 @@
     "preview": "astro preview --host 127.0.0.1",
     "reset": "node scripts/reset.mjs",
     "check:branches": "node scripts/verify-demo-branches.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "format:check": "biome format .",
@@ -22,7 +24,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@axe-core/playwright": "^4.14.1",
     "@biomejs/biome": "2.6.9",
+    "@playwright/test": "^1.65.1",
     "json-server": "0.17.4",
     "typescript": "^6.0.3"
   }
