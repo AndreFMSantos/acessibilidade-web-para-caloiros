@@ -1,15 +1,27 @@
 ---
-import type { Game } from '../lib/types';
 import { formatPrice } from '../lib/format';
+import type { Game } from '../lib/types';
 import { productPath } from '../lib/versions';
-interface Props { game: Game }
+
+interface Props {
+  game: Game;
+}
 const { game } = Astro.props;
 const href = productPath(game.id);
 ---
+
 <li data-game-card={game.id} hidden>
   <article>
+    <!-- biome-ignore lint/a11y/useAnchorContent: O nome acessível é fornecido pelo aria-label dinâmico. -->
     <a href={href} aria-label={`Ver ${game.title} para ${game.platform}`} data-game-cover>
-      <img src={game.image} alt="" width="460" height="215" loading="lazy" style={`view-transition-name: cover-${game.id}`} />
+      <img
+        src={game.image}
+        alt=""
+        width="460"
+        height="215"
+        loading="lazy"
+        style={`view-transition-name: cover-${game.id}`}
+      >
     </a>
     <div class="game-meta">
       <p class="game-category" data-game-category>{game.platform} / {game.genre}</p>

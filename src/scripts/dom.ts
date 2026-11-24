@@ -1,6 +1,6 @@
-export function element<T extends Element>(selector: string, constructor: { new (): T }): T {
+export function element<T extends Element>(selector: string, elementType: { new (): T }): T {
   const node = document.querySelector(selector);
-  if (!(node instanceof constructor)) throw new Error(`Elemento em falta: ${selector}`);
+  if (!(node instanceof elementType)) throw new Error(`Elemento em falta: ${selector}`);
   return node;
 }
 

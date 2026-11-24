@@ -1,6 +1,6 @@
 ---
-import ProductDetail from '../components/ProductDetail.astro';
 import seed from '../../data/seed.json';
+import ProductDetail from '../components/ProductDetail.astro';
 import { productPath } from '../lib/versions';
 
 export function getStaticPaths() {
@@ -10,4 +10,5 @@ export function getStaticPaths() {
   }));
 }
 ---
+
 <ProductDetail {...Astro.props} />

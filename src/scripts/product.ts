@@ -1,5 +1,5 @@
-import type { Game } from '../lib/types';
 import { euro } from '../lib/format';
+import type { Game } from '../lib/types';
 import { element } from './dom';
 
 export function updateProduct(games: Game[]) {
@@ -13,6 +13,7 @@ export function updateProduct(games: Game[]) {
   element('#product-edition', HTMLElement).textContent = game.edition;
   element('#product-genre', HTMLParagraphElement).textContent = game.genre;
   element('#product-image', HTMLImageElement).src = game.image;
-  element('#product-price', HTMLParagraphElement).textContent = game.price === 0 ? 'Grátis' : euro.format(game.price);
+  element('#product-price', HTMLParagraphElement).textContent =
+    game.price === 0 ? 'Grátis' : euro.format(game.price);
   document.title = `${game.title} · ${game.platform} — Checkpoint`;
 }
