@@ -29,6 +29,18 @@ npm run build
 
 Para testar a build, executar `npm run api` e, noutro terminal, `npm run preview`. O proxy da API funciona em desenvolvimento e no preview local. Um alojamento estático exige configuração própria da API.
 
+## Testes de acessibilidade
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+npm run test:e2e:ui
+```
+
+O primeiro comando instala o Chromium usado pelos testes. `test:e2e` executa o axe em cada catálogo e página de detalhes; `test:e2e:ui` abre a interface interativa do Playwright. Os testes usam os dados do seed e uma API simulada, sem alterar o carrinho. O servidor de teste usa a porta 4322.
+
+As violações detetadas fazem os testes falhar, incluindo o baixo contraste deliberado dos preços. Os resultados completos do axe ficam anexados aos testes. Estes testes automáticos não demonstram conformidade WCAG nem substituem a verificação de teclado e VoiceOver.
+
 ## Lint e formatação
 
 ```sh
