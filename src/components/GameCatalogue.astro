@@ -1,0 +1,18 @@
+---
+import seed from '../../data/seed.json';
+import PlatformFilter from './PlatformFilter.astro';
+import GameCard from './GameCard.astro';
+import CartFeedback from './CartFeedback.astro';
+---
+<section class="shell catalogue" id="catalogue" aria-labelledby="catalogue-title">
+        <div class="section-heading"><h2 id="catalogue-title">Escolhe a próxima aventura.</h2><span class="eyebrow">SELEÇÃO CHECKPOINT / 2026</span></div>
+        <div class="toolbar">
+          <div class="search"><label for="search">Pesquisar jogos</label><input id="search" type="search" placeholder="Nome do jogo" /></div>
+          <PlatformFilter />
+          <div><label for="sort">Ordenar por</label><select id="sort"><option value="featured">Em destaque</option><option value="price">Preço mais baixo</option></select></div>
+        </div>
+        <p id="results" role="status">A carregar o catálogo…</p>
+        <ul class="games" id="games">{seed.games.map((game) => <GameCard game={game} />)}</ul>
+        <p id="empty" hidden>Não encontrámos jogos com essa pesquisa. Experimenta outra plataforma ou outro nome.</p>
+        <CartFeedback />
+      </section>

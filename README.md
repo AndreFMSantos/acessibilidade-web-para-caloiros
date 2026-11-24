@@ -29,6 +29,19 @@ npm run build
 
 Para testar a build, executar `npm run api` e, noutro terminal, `npm run preview`. O proxy da API funciona em desenvolvimento e no preview local. Um alojamento estático exige configuração própria da API.
 
+## Organização do código
+
+- `src/components/`: HTML da loja em componentes Astro: `GameCard`, `GameCatalogue`, `Hero`, `SiteHeader`, `SiteFooter`, `CartDialog`, `CartFeedback`, `PlatformFilter`, `ProductDetail` e a composição `Store`.
+- `src/layouts/SiteLayout.astro`: estrutura da página e carregamento do script.
+- `src/scripts/api.ts`: pedidos e validação das respostas da API.
+- `src/scripts/catalogue.ts` e `platform-filter.ts`: pesquisa, ordenação, visibilidade dos cartões e seleção de plataforma.
+- `src/scripts/cart.ts`: estado do carrinho, adição, remoção e diálogo. As linhas clonam o template HTML definido em `CartDialog.astro`.
+- `src/scripts/product.ts`: atualização dos detalhes com os dados da API.
+- `src/scripts/store.ts`: apenas coordena a inicialização.
+- `src/lib/`: tipos, formatação de preços e caminhos das páginas.
+
+Os cartões são renderizados por Astro a partir do seed; o browser atualiza os seus dados a partir da API e mostra, oculta ou ordena os elementos existentes. Não constrói o HTML dos cartões em TypeScript. As ofertas do seed definem os cartões e as rotas disponíveis; acrescentar ofertas exige atualizar o seed e a build.
+
 ## Base e imagens
 
 Direção visual, paleta editorial e fonte Archivo adaptadas do [Atelier Kō](https://github.com/xocothemes/atelier-ko), de Andrei Alba, MIT, revisão `348433f5f0c58541077a0e584a8883a4d9488ba4`. A licença original está preservada. A licença da fonte está em `public/fonts/OFL-Archivo.txt`. Esta versão não inclui as restantes páginas, animações, checkout ou infraestrutura do tema.
