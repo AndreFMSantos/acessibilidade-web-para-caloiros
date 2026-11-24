@@ -1,5 +1,8 @@
 ---
 import '../styles.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import CartDialog from '../components/CartDialog.astro';
 import { cataloguePath } from '../lib/versions';
 interface Props { title?: string; description?: string; contrast?: boolean; version?: string; gameId?: string }
 const {
@@ -20,16 +23,10 @@ const catalogue = cataloguePath(version);
   </head>
   <body class:list={[{ 'contrast-corrected': contrast }]} data-version={version} data-game-id={gameId}>
     <a class="skip-link" href="#main-content">Saltar para o conteúdo</a>
-    <header class="shell site-header">
-      <a class="brand" href={catalogue} aria-label="Checkpoint — início">CHECKPOINT<span aria-hidden="true">↗</span></a>
-      <nav aria-label="Principal"><a href={`${catalogue}#catalogue`}>Explorar jogos</a><button type="button" id="open-cart">Carrinho <span data-cart-count>0</span></button></nav>
-    </header>
+    <SiteHeader catalogue={catalogue} />
     <main id="main-content"><slot /></main>
-    <footer class="shell footer"><p class="brand">CHECKPOINT↗</p><p>Loja de demonstração · ISEC<br />Preços e ofertas fictícios. Não são efetuados pagamentos.</p><p>Imagens dos respetivos titulares.<br />Sem relação comercial com as editoras.</p></footer>
-    <dialog id="cart" aria-labelledby="cart-title">
-      <div class="dialog-heading"><h2 id="cart-title">O teu carrinho</h2><button type="button" id="close-cart">Fechar</button></div>
-      <ul id="cart-items"></ul><p id="cart-total"></p><p class="demo-note">Demonstração: não existe pagamento.</p>
-    </dialog>
+    <SiteFooter />
+    <CartDialog />
     <script>import '../scripts/store';</script>
   </body>
 </html>
