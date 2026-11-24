@@ -41,7 +41,7 @@ function isGame(value: unknown): value is Game {
     && 'platform' in value && typeof value.platform === 'string'
     && 'genre' in value && typeof value.genre === 'string'
     && 'price' in value && typeof value.price === 'number' && Number.isFinite(value.price) && value.price >= 0
-    && 'image' in value && typeof value.image === 'string' && /^\/images\/[a-z0-9-]+\.jpg$/.test(value.image);
+    && 'image' in value && typeof value.image === 'string' && /^\/images\/[a-z0-9-]+\.(jpg|png|webp)$/.test(value.image);
 }
 function isItem(value: unknown): value is CartItem {
   return typeof value === 'object' && value !== null && 'id' in value && typeof value.id === 'string'
@@ -73,7 +73,7 @@ function renderGames() {
     const button = text('button', 'Adicionar ao carrinho');
     button.type = 'button';
     button.addEventListener('click', () => void add(game, button));
-    row.append(text('p', euro.format(game.price), 'price'), button);
+    row.append(text('p', game.price === 0 ? 'Grátis' : euro.format(game.price), 'price'), button);
     meta.append(row); article.append(meta); li.append(article);
     return li;
   }));

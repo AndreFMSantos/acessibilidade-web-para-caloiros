@@ -49,7 +49,7 @@ npm run build
 
 Para pré-visualizar a build, manter `npm run api` num terminal e executar `npm run preview` noutro. O proxy `/api` funciona no desenvolvimento e no preview local; um alojamento estático exigiria configuração própria da API.
 
-Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtro corrigido com teclado (seis para três ofertas PC após substituir Hades II por GTA VI), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
+Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtro corrigido com teclado (seis ofertas, três para PC), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
 
 `npm run check` terminou sem erros, avisos ou sugestões; `npm run build` gerou as cinco rotas. Ainda falta o ensaio com VoiceOver, a extensão escolhida e o projetor da sala. Não foi verificado o anúncio sonoro da região de estado.
 
@@ -57,11 +57,11 @@ Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtr
 
 Direção visual, paleta editorial e fonte Archivo adaptadas do [Atelier Kō](https://github.com/xocothemes/atelier-ko), de Andrei Alba, MIT, revisão `348433f5f0c58541077a0e584a8883a4d9488ba4`. A licença original está preservada. A licença da fonte está em `public/fonts/OFL-Archivo.txt`. Esta versão não inclui as restantes páginas, animações, checkout ou infraestrutura do tema.
 
-Os preços são fictícios. Os jogos usados são uma seleção de lançamentos de 2025–2026, não uma lista exaustiva dos lançamentos mais recentes à data da aula. Imagens promocionais pertencem aos respetivos titulares e foram obtidas nas páginas oficiais da Rockstar e na Steam. Não são abrangidas pela licença MIT do código:
+O catálogo inclui GTA VI, Fortnite, Minecraft e Call of Duty: Modern Warfare 4. Há seis ofertas de demonstração, distribuídas por plataforma. Fortnite é apresentado como Grátis; os preços dos outros jogos são fictícios. Modern Warfare 4 foi confirmado como o lançamento atual da série nas páginas oficiais em 24 de novembro de 2026. Imagens promocionais pertencem aos respetivos titulares e foram obtidas na Rockstar, Epic Games Store, Nintendo e Steam. Não são abrangidas pela licença MIT do código:
 
 - [Grand Theft Auto VI — Rockstar Games](https://www.rockstargames.com/VI). Oferta fictícia para PS5; não representa uma versão PC. Fonte da imagem: `https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg`.
-- [Hollow Knight: Silksong — Team Cherry](https://store.steampowered.com/app/1030300/Hollow_Knight_Silksong/)
-- [Clair Obscur: Expedition 33 — Sandfall Interactive / Kepler](https://store.steampowered.com/app/1903340/Clair_Obscur_Expedition_33/)
-- [Split Fiction — Hazelight / Electronic Arts](https://store.steampowered.com/app/2001120/Split_Fiction/)
+- [Fortnite — Epic Games](https://store.epicgames.com/p/fortnite?lang=en-US)
+- [Minecraft — Mojang / Microsoft](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc). Imagem obtida na [Nintendo](https://www.nintendo.com/us/store/products/minecraft-switch/).
+- [Call of Duty: Modern Warfare 4 — Activision](https://www.callofduty.com/modernwarfare4). Imagem obtida na [Steam](https://store.steampowered.com/app/4435490/Call_of_Duty_Modern_Warfare_4/).
 
-As plataformas das ofertas de demonstração foram verificadas na [Rockstar](https://www.rockstargames.com/VI/out-now), Steam, [Team Cherry](https://www.teamcherry.com.au/games) e [Expedition 33](https://www.expedition33.com/). As imagens são locais para a aula funcionar sem acesso aos servidores de imagens.
+As plataformas das ofertas de demonstração foram verificadas nas páginas oficiais acima, na [Rockstar](https://www.rockstargames.com/VI/out-now) e no [download de Fortnite](https://www.fortnite.com/download). As imagens são locais para a aula funcionar sem acesso aos servidores de imagens.

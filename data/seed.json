@@ -1,11 +1,53 @@
 {
   "games": [
-    { "id": "gta-vi-ps5", "title": "Grand Theft Auto VI", "platform": "PlayStation 5", "genre": "Ação / Mundo aberto", "price": 79.99, "image": "/images/gta-vi.jpg" },
-    { "id": "silksong-switch", "title": "Hollow Knight: Silksong", "platform": "Nintendo Switch", "genre": "Aventura / Metroidvania", "price": 19.99, "image": "/images/silksong.jpg" },
-    { "id": "expedition-ps5", "title": "Clair Obscur: Expedition 33", "platform": "PlayStation 5", "genre": "RPG / Aventura", "price": 49.99, "image": "/images/expedition-33.jpg" },
-    { "id": "split-pc", "title": "Split Fiction", "platform": "PC", "genre": "Aventura / Cooperativo", "price": 49.99, "image": "/images/split-fiction.jpg" },
-    { "id": "silksong-pc", "title": "Hollow Knight: Silksong", "platform": "PC", "genre": "Aventura / Metroidvania", "price": 19.99, "image": "/images/silksong.jpg" },
-    { "id": "expedition-pc", "title": "Clair Obscur: Expedition 33", "platform": "PC", "genre": "RPG / Aventura", "price": 49.99, "image": "/images/expedition-33.jpg" }
+    {
+      "id": "gta-vi-ps5",
+      "title": "Grand Theft Auto VI",
+      "platform": "PlayStation 5",
+      "genre": "Ação / Mundo aberto",
+      "price": 79.99,
+      "image": "/images/gta-vi.jpg"
+    },
+    {
+      "id": "fortnite-pc",
+      "title": "Fortnite",
+      "platform": "PC",
+      "genre": "Ação / Battle Royale",
+      "price": 0,
+      "image": "/images/fortnite.jpg"
+    },
+    {
+      "id": "minecraft-pc",
+      "title": "Minecraft",
+      "platform": "PC",
+      "genre": "Sandbox / Java e Bedrock",
+      "price": 29.99,
+      "image": "/images/minecraft.jpg"
+    },
+    {
+      "id": "mw4-pc",
+      "title": "Call of Duty: Modern Warfare 4",
+      "platform": "PC",
+      "genre": "Ação / FPS",
+      "price": 79.99,
+      "image": "/images/modern-warfare-4.jpg"
+    },
+    {
+      "id": "fortnite-ps5",
+      "title": "Fortnite",
+      "platform": "PlayStation 5",
+      "genre": "Ação / Battle Royale",
+      "price": 0,
+      "image": "/images/fortnite.jpg"
+    },
+    {
+      "id": "minecraft-switch",
+      "title": "Minecraft",
+      "platform": "Nintendo Switch",
+      "genre": "Sandbox / Bedrock",
+      "price": 29.99,
+      "image": "/images/minecraft.jpg"
+    }
   ],
   "cart": []
 }
