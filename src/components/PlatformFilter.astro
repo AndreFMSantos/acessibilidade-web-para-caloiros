@@ -2,11 +2,8 @@
 const platforms = ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'];
 ---
 <div class="platform-filter">
-  <p id="platform-label">Plataforma</p>
-  <div role="button" aria-labelledby="platform-label platform-value" class="fake-select" data-platform-trigger>
-    <span id="platform-value">Todas</span><span aria-hidden="true">⌄</span>
-  </div>
-  <div class="platform-options" data-platform-options hidden>
-    {platforms.map((platform) => <div data-platform-option={platform}>{platform}</div>)}
-  </div>
+  <label for="platform">Plataforma</label>
+  <select id="platform" data-platform-select>
+    {platforms.map((platform) => <option value={platform}>{platform}</option>)}
+  </select>
 </div>

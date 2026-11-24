@@ -140,22 +140,9 @@ async function add(game: Game, button: HTMLButtonElement) {
 function setPlatform(value: string) { platform = value; renderGames(); }
 search?.addEventListener('input', renderGames);
 sort?.addEventListener('change', renderGames);
-const trigger = document.querySelector('[data-platform-trigger]');
-const options = document.querySelector('[data-platform-options]');
-if (trigger instanceof HTMLElement && options instanceof HTMLElement) {
-  trigger.addEventListener('click', () => { options.hidden = !options.hidden; });
-  options.addEventListener('click', (event) => {
-    if (!(event.target instanceof HTMLElement)) return;
-    const value = event.target.dataset.platformOption;
-    if (!value) return;
-    element('#platform-value', HTMLSpanElement).textContent = value;
-    options.hidden = true;
-    setPlatform(value);
-  });
-  document.addEventListener('click', (event) => {
-    if (event.target instanceof Node && !trigger.contains(event.target) && !options.contains(event.target)) options.hidden = true;
-  });
-}
+document.querySelector('[data-platform-select]')?.addEventListener('change', (event) => {
+  if (event.target instanceof HTMLSelectElement) setPlatform(event.target.value);
+});
 cartButton.addEventListener('click', () => cart.showModal());
 element('#close-cart', HTMLButtonElement).addEventListener('click', () => cart.close());
 cart.addEventListener('close', () => cartButton.focus());
@@ -210,8 +197,8 @@ function restoreCatalogue() {
     if ('platform' in saved && typeof saved.platform === 'string'
       && ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)) {
       platform = saved.platform;
-      const value = document.querySelector('#platform-value');
-      if (value) value.textContent = platform;
+      const select = document.querySelector<HTMLSelectElement>('[data-platform-select]');
+      if (select) select.value = platform;
     }
     renderGames();
   } catch { /* Sem armazenamento, o catálogo abre no estado inicial. */ }

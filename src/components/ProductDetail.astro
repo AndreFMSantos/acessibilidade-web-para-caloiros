@@ -20,7 +20,7 @@ const price = game.price === 0 ? 'Grátis' : new Intl.NumberFormat('pt-PT', { st
         <dl class="product-specs"><div><dt>Plataforma</dt><dd id="product-platform">{game.platform}</dd></div><div><dt>Edição</dt><dd id="product-edition">{game.edition}</dd></div></dl>
         {offers.length > 1 && <nav class="other-platforms" aria-label="Escolher plataforma"><p>Também disponível para</p>{offers.filter((offer) => offer.id !== game.id).map((offer) => <a href={productPath(offer.id)}>{offer.platform}</a>)}</nav>}
         <div class="detail-purchase"><p class="price" id="product-price">{price}</p><button type="button" id="product-add" disabled>Adicionar ao carrinho</button></div>
-        <p id="cart-status" ></p>
+        <p id="cart-status" role="status"></p>
         <p id="api-error" role="alert" hidden></p>
         <p class="demo-note">Oferta de demonstração. Não é efetuado qualquer pagamento.</p>
       </div>
