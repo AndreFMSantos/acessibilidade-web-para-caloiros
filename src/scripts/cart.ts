@@ -16,6 +16,10 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
 
   function render() {
     element('[data-cart-count]', HTMLSpanElement).textContent = String(items.length);
+    open.setAttribute(
+      'aria-label',
+      `Abrir carrinho — ${items.length} ${items.length === 1 ? 'jogo' : 'jogos'}`,
+    );
     const rows = items.flatMap((item) => {
       const game = games.find((game) => game.id === item.gameId);
       if (!game) return [];
