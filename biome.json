@@ -6,7 +6,15 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["src/**", "scripts/**", "data/seed.json", "*.json", "*.mjs", "!package-lock.json"]
+    "includes": [
+      "src/**",
+      "scripts/**",
+      "tests/**",
+      "data/seed.json",
+      "*.json",
+      "*.mjs",
+      "!package-lock.json"
+    ]
   },
   "formatter": {
     "enabled": true,
