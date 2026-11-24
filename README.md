@@ -33,7 +33,7 @@ As correções isoladas mantêm as outras duas barreiras. O carrinho é partilha
 1. Na inicial, escolher PC com rato e adicionar um jogo.
 2. Repetir com teclado: o filtro não recebe foco. Inspecionar a `div role="button"` em `src/components/PlatformFilter.astro`.
 3. Pedir ao agente uma correção localizada que prefira HTML nativo. Não ler as correções preparadas se quiseres demonstrar a investigação do agente.
-4. Se necessário, abrir `/filtro` como recuperação. Tab chega ao select; escolher PC reduz seis ofertas a quatro.
+4. Se necessário, abrir `/filtro` como recuperação. Tab chega ao select; escolher PC reduz seis ofertas a três.
 5. Comparar `/` e `/contraste`. O preço muda de #aaa (baixo contraste) para #101010; o fundo é #f4f4f2.
 6. Comparar `/` e `/carrinho` com VoiceOver: a mensagem visível permanece no mesmo local; a correção acrescenta semântica de região de estado. Confirmar o anúncio no Mac real.
 7. Abrir `/corrigida`, repetir a tarefa e avaliar novamente. Três correções não demonstram conformidade WCAG do produto inteiro.
@@ -49,7 +49,7 @@ npm run build
 
 Para pré-visualizar a build, manter `npm run api` num terminal e executar `npm run preview` noutro. O proxy `/api` funciona no desenvolvimento e no preview local; um alojamento estático exigiria configuração própria da API.
 
-Verificado no browser em 24 de novembro de 2026: filtro com rato (seis para quatro ofertas PC), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
+Verificado no browser em 24 de novembro de 2026: filtro inicial com rato e filtro corrigido com teclado (seis para três ofertas PC após substituir Hades II por GTA VI), Tab a saltar o filtro inicial, seleção PC com teclado na versão corrigida, adição e persistência após recarregar, foco preservado após adicionar, abertura do diálogo e fecho com Escape com retorno ao botão de origem. A versão corrigida reorganiza os controlos numa coluna a 320 píxeis de largura.
 
 `npm run check` terminou sem erros, avisos ou sugestões; `npm run build` gerou as cinco rotas. Ainda falta o ensaio com VoiceOver, a extensão escolhida e o projetor da sala. Não foi verificado o anúncio sonoro da região de estado.
 
@@ -57,11 +57,11 @@ Verificado no browser em 24 de novembro de 2026: filtro com rato (seis para quat
 
 Direção visual, paleta editorial e fonte Archivo adaptadas do [Atelier Kō](https://github.com/xocothemes/atelier-ko), de Andrei Alba, MIT, revisão `348433f5f0c58541077a0e584a8883a4d9488ba4`. A licença original está preservada. A licença da fonte está em `public/fonts/OFL-Archivo.txt`. Esta versão não inclui as restantes páginas, animações, checkout ou infraestrutura do tema.
 
-Os preços são fictícios. Os jogos usados são uma seleção de lançamentos de 2025, não uma lista dos lançamentos mais recentes à data da aula. Capas promocionais pertencem aos respetivos titulares e foram obtidas das páginas oficiais na Steam. Não são abrangidas pela licença MIT do código:
+Os preços são fictícios. Os jogos usados são uma seleção de lançamentos de 2025–2026, não uma lista exaustiva dos lançamentos mais recentes à data da aula. Imagens promocionais pertencem aos respetivos titulares e foram obtidas nas páginas oficiais da Rockstar e na Steam. Não são abrangidas pela licença MIT do código:
 
-- [Hades II — Supergiant Games](https://store.steampowered.com/app/1145350/Hades_II/)
+- [Grand Theft Auto VI — Rockstar Games](https://www.rockstargames.com/VI). Oferta fictícia para PS5; não representa uma versão PC. Fonte da imagem: `https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg`.
 - [Hollow Knight: Silksong — Team Cherry](https://store.steampowered.com/app/1030300/Hollow_Knight_Silksong/)
 - [Clair Obscur: Expedition 33 — Sandfall Interactive / Kepler](https://store.steampowered.com/app/1903340/Clair_Obscur_Expedition_33/)
 - [Split Fiction — Hazelight / Electronic Arts](https://store.steampowered.com/app/2001120/Split_Fiction/)
 
-As plataformas das ofertas de demonstração foram verificadas na Steam, [Team Cherry](https://www.teamcherry.com.au/games) e [Expedition 33](https://www.expedition33.com/). As imagens são locais para a aula funcionar sem acesso aos servidores de imagens.
+As plataformas das ofertas de demonstração foram verificadas na [Rockstar](https://www.rockstargames.com/VI/out-now), Steam, [Team Cherry](https://www.teamcherry.com.au/games) e [Expedition 33](https://www.expedition33.com/). As imagens são locais para a aula funcionar sem acesso aos servidores de imagens.

@@ -1,6 +1,6 @@
 {
   "games": [
-    { "id": "hades-pc", "title": "Hades II", "platform": "PC", "genre": "Ação / Roguelike", "price": 29.99, "image": "/images/hades-2.jpg" },
+    { "id": "gta-vi-ps5", "title": "Grand Theft Auto VI", "platform": "PlayStation 5", "genre": "Ação / Mundo aberto", "price": 79.99, "image": "/images/gta-vi.jpg" },
     { "id": "silksong-switch", "title": "Hollow Knight: Silksong", "platform": "Nintendo Switch", "genre": "Aventura / Metroidvania", "price": 19.99, "image": "/images/silksong.jpg" },
     { "id": "expedition-ps5", "title": "Clair Obscur: Expedition 33", "platform": "PlayStation 5", "genre": "RPG / Aventura", "price": 49.99, "image": "/images/expedition-33.jpg" },
     { "id": "split-pc", "title": "Split Fiction", "platform": "PC", "genre": "Aventura / Cooperativo", "price": 49.99, "image": "/images/split-fiction.jpg" },
