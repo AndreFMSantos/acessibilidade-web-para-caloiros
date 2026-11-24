@@ -22,7 +22,7 @@ const catalogue = cataloguePath();
     <a class="skip-link" href="#main-content">Saltar para o conteúdo</a>
     <header class="shell site-header">
       <a class="brand" href={catalogue} aria-label="Checkpoint — início">CHECKPOINT<span aria-hidden="true">↗</span></a>
-      <nav aria-label="Principal"><a href={`${catalogue}#catalogue`}>Explorar jogos</a><button type="button" id="open-cart">Carrinho <span data-cart-count>0</span></button></nav>
+      <nav aria-label="Principal"><a href={`${catalogue}#catalogue`}>Explorar jogos</a><button type="button" id="open-cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M3 3h2l3 12h10l3-9H6" /><circle cx="9" cy="20" r="1" /><circle cx="18" cy="20" r="1" /></svg><span data-cart-count aria-hidden="true">0</span></button></nav>
     </header>
     <main id="main-content"><slot /></main>
     <footer class="shell footer"><p class="brand">CHECKPOINT↗</p><p>Loja de demonstração · ISEC<br />Preços e ofertas fictícios. Não são efetuados pagamentos.</p><p>Imagens dos respetivos titulares.<br />Sem relação comercial com as editoras.</p></footer>
