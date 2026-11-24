@@ -20,8 +20,8 @@ O comando `dev` inicia os dois processos. Ctrl+C termina ambos. A API está limi
 
 Para a correção com um coding agent, usar as branches:
 
-- `demo/inicial`: loja com as três barreiras, sem rotas ou implementações corrigidas no código de trabalho.
-- `demo/resolvida`: a mesma loja, com filtro nativo, preço com contraste corrigido e confirmação do carrinho com `role="status"`.
+- `demo/inicial`: loja com cinco barreiras, sem rotas ou implementações corrigidas no código de trabalho.
+- `demo/resolvida`: a mesma loja, com filtro nativo, preço com contraste corrigido, confirmação do carrinho com `role="status"`, nome acessível no botão do carrinho e foco visível nos botões.
 - `main`: mantém as rotas de comparação abaixo e a documentação da aula.
 
 Antes da aula, parar os servidores, mudar para `demo/inicial` e criar uma branch para o ensaio:
@@ -33,7 +33,11 @@ npm run reset
 npm run dev
 ```
 
-O agente deve trabalhar nessa branch sem consultar as soluções. As soluções continuam acessíveis no histórico Git e nas outras branches: esta separação não é uma barreira de acesso. Para comparar só as três correções: `git diff demo/inicial..demo/resolvida -- src`. Para recuperação, parar os servidores e abrir a branch resolvida num checkout limpo; preservar primeiro quaisquer alterações do ensaio.
+O agente deve trabalhar nessa branch sem consultar as soluções. As soluções continuam acessíveis no histórico Git e nas outras branches: esta separação não é uma barreira de acesso. Para comparar as cinco correções: `git diff demo/inicial..demo/resolvida -- src`. Para recuperação, parar os servidores e abrir a branch resolvida num checkout limpo; preservar primeiro quaisquer alterações do ensaio.
+
+Os dois exemplos adicionais existem apenas nas branches da demonstração: o carrinho usa um ícone sem nome acessível na inicial e `aria-label="Abrir carrinho"` na resolvida; os botões têm o contorno de foco removido na inicial e mantêm o estilo `:focus-visible` na resolvida. O ícone e o contador visual estão ocultos da árvore de acessibilidade nas duas branches, para que não substituam o nome da ação. As rotas da `main` continuam a comparar os três problemas originais.
+
+Verificado no browser: Tab chega ao botão do carrinho nas duas branches; na inicial, o contorno calculado é `none`; na resolvida, é uma linha sólida de 3 px e o nome “Abrir carrinho” aparece na árvore de acessibilidade. `check` e `build` passaram em ambas. O ensaio com VoiceOver continua pendente.
 
 | Endereço | Alterações face à inicial |
 | --- | --- |
