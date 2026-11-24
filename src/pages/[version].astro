@@ -1,0 +1,12 @@
+---
+import Store from '../components/Store.astro';
+export function getStaticPaths() {
+  return [
+    { params: { version: 'filtro' }, props: { filter: true } },
+    { params: { version: 'contraste' }, props: { contrast: true } },
+    { params: { version: 'carrinho' }, props: { status: true } },
+    { params: { version: 'corrigida' }, props: { filter: true, contrast: true, status: true } },
+  ];
+}
+---
+<Store {...Astro.props} />

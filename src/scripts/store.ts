@@ -1,0 +1,159 @@
+export {};
+
+interface Game {
+  id: string;
+  title: string;
+  platform: string;
+  genre: string;
+  price: number;
+  image: string;
+}
+interface CartItem { id: string; gameId: string }
+
+function element<T extends Element>(selector: string, constructor: { new (): T }): T {
+  const node = document.querySelector(selector);
+  if (!(node instanceof constructor)) throw new Error(`Elemento em falta: ${selector}`);
+  return node;
+}
+
+const list = element('#games', HTMLUListElement);
+const search = element('#search', HTMLInputElement);
+const sort = element('#sort', HTMLSelectElement);
+const results = element('#results', HTMLParagraphElement);
+const status = element('#cart-status', HTMLParagraphElement);
+const error = element('#api-error', HTMLParagraphElement);
+const cart = element('#cart', HTMLDialogElement);
+const cartButton = element('#open-cart', HTMLButtonElement);
+const euro = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' });
+let games: Game[] = [];
+let items: CartItem[] = [];
+let platform = 'Todas';
+
+async function request(path: string, options?: RequestInit): Promise<unknown> {
+  const response = await fetch(`/api/${path}`, options);
+  if (!response.ok) throw new Error(`API: ${response.status}`);
+  return response.json();
+}
+function isGame(value: unknown): value is Game {
+  if (typeof value !== 'object' || value === null) return false;
+  return 'id' in value && typeof value.id === 'string'
+    && 'title' in value && typeof value.title === 'string'
+    && 'platform' in value && typeof value.platform === 'string'
+    && 'genre' in value && typeof value.genre === 'string'
+    && 'price' in value && typeof value.price === 'number' && Number.isFinite(value.price) && value.price >= 0
+    && 'image' in value && typeof value.image === 'string' && /^\/images\/[a-z0-9-]+\.jpg$/.test(value.image);
+}
+function isItem(value: unknown): value is CartItem {
+  return typeof value === 'object' && value !== null && 'id' in value && typeof value.id === 'string'
+    && 'gameId' in value && typeof value.gameId === 'string';
+}
+function text<K extends keyof HTMLElementTagNameMap>(tag: K, content: string, className?: string): HTMLElementTagNameMap[K] {
+  const node = document.createElement(tag);
+  node.textContent = content;
+  if (className) node.className = className;
+  return node;
+}
+function showError(message: string) { error.textContent = message; error.hidden = false; }
+function renderGames() {
+  const query = search.value.trim().toLocaleLowerCase('pt-PT');
+  const visible = games.filter((game) => (platform === 'Todas' || game.platform === platform)
+    && game.title.toLocaleLowerCase('pt-PT').includes(query));
+  if (sort.value === 'price') visible.sort((a, b) => a.price - b.price);
+  list.replaceChildren(...visible.map((game) => {
+    const li = document.createElement('li');
+    const article = document.createElement('article');
+    const image = new Image(460, 215);
+    image.src = game.image;
+    image.alt = '';
+    image.loading = 'lazy';
+    article.append(image);
+    const meta = text('div', '', 'game-meta');
+    meta.append(text('p', `${game.platform} / ${game.genre}`, 'game-category'), text('h3', game.title));
+    const row = text('div', '', 'purchase');
+    const button = text('button', 'Adicionar ao carrinho');
+    button.type = 'button';
+    button.addEventListener('click', () => void add(game, button));
+    row.append(text('p', euro.format(game.price), 'price'), button);
+    meta.append(row); article.append(meta); li.append(article);
+    return li;
+  }));
+  results.textContent = `${visible.length} ${visible.length === 1 ? 'jogo disponível' : 'jogos disponíveis'}`;
+  element('#empty', HTMLParagraphElement).hidden = visible.length !== 0;
+}
+function renderCart() {
+  element('[data-cart-count]', HTMLSpanElement).textContent = String(items.length);
+  const rows = items.map((item) => {
+    const game = games.find((game) => game.id === item.gameId);
+    const li = document.createElement('li');
+    if (!game) return li;
+    li.append(text('span', `${game.title} · ${game.platform}`), text('strong', euro.format(game.price)));
+    const remove = text('button', `Remover ${game.title}`);
+    remove.type = 'button';
+    remove.addEventListener('click', async () => {
+      remove.disabled = true;
+      try {
+        await request(`cart/${encodeURIComponent(item.id)}`, { method: 'DELETE' });
+        items = items.filter((entry) => entry.id !== item.id);
+        renderCart();
+        element('#close-cart', HTMLButtonElement).focus();
+      } catch { showError('Não foi possível remover o jogo. Tenta novamente.'); remove.disabled = false; }
+    });
+    li.append(remove); return li;
+  });
+  if (rows.length === 0) rows.push(text('li', 'O carrinho está vazio.'));
+  element('#cart-items', HTMLUListElement).replaceChildren(...rows);
+  const total = items.reduce((sum, item) => sum + (games.find((game) => game.id === item.gameId)?.price ?? 0), 0);
+  element('#cart-total', HTMLParagraphElement).textContent = `Total: ${euro.format(total)}`;
+}
+async function add(game: Game, button: HTMLButtonElement) {
+  if (button.getAttribute('aria-disabled') === 'true') return;
+  button.setAttribute('aria-disabled', 'true');
+  error.hidden = true;
+  status.textContent = '';
+  try {
+    const result = await request('cart', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: crypto.randomUUID(), gameId: game.id }),
+    });
+    if (!isItem(result)) throw new Error('Resposta inválida');
+    items.push(result);
+    renderCart();
+    // A versão inicial altera só o texto visível. /carrinho acrescenta role=status à região já existente.
+    status.textContent = `${game.title} foi adicionado ao carrinho. ${items.length} ${items.length === 1 ? 'jogo' : 'jogos'} no total.`;
+  } catch { showError('Não foi possível adicionar o jogo. Confirma que a API está a funcionar e tenta novamente.'); }
+  finally { button.removeAttribute('aria-disabled'); }
+}
+function setPlatform(value: string) { platform = value; renderGames(); }
+search.addEventListener('input', renderGames);
+sort.addEventListener('change', renderGames);
+document.querySelector('[data-platform-select]')?.addEventListener('change', (event) => {
+  if (event.target instanceof HTMLSelectElement) setPlatform(event.target.value);
+});
+const trigger = document.querySelector('[data-platform-trigger]');
+const options = document.querySelector('[data-platform-options]');
+if (trigger instanceof HTMLElement && options instanceof HTMLElement) {
+  trigger.addEventListener('click', () => { options.hidden = !options.hidden; });
+  options.addEventListener('click', (event) => {
+    if (!(event.target instanceof HTMLElement)) return;
+    const value = event.target.dataset.platformOption;
+    if (!value) return;
+    element('#platform-value', HTMLSpanElement).textContent = value;
+    options.hidden = true;
+    setPlatform(value);
+  });
+  document.addEventListener('click', (event) => {
+    if (event.target instanceof Node && !trigger.contains(event.target) && !options.contains(event.target)) options.hidden = true;
+  });
+}
+cartButton.addEventListener('click', () => cart.showModal());
+element('#close-cart', HTMLButtonElement).addEventListener('click', () => cart.close());
+cart.addEventListener('close', () => cartButton.focus());
+
+async function load() {
+  try {
+    const [catalogue, cartData] = await Promise.all([request('games'), request('cart')]);
+    if (!Array.isArray(catalogue) || !catalogue.every(isGame) || !Array.isArray(cartData) || !cartData.every(isItem)) throw new Error('Dados inválidos');
+    games = catalogue; items = cartData;
+    renderGames(); renderCart();
+  } catch { results.textContent = 'Catálogo indisponível.'; showError('Não conseguimos carregar a loja. Inicia a API com npm run api e volta a carregar a página.'); }
+}
+void load();
