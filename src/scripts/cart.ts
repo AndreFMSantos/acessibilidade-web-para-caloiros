@@ -13,9 +13,14 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
   const list = element('#cart-items', HTMLUListElement);
   const template = element('#cart-item-template', HTMLTemplateElement);
   const empty = element('#cart-empty-template', HTMLTemplateElement);
+  const removalStatus = element('#cart-removal-status', HTMLParagraphElement);
 
   function render() {
     element('[data-cart-count]', HTMLSpanElement).textContent = String(items.length);
+    open.setAttribute(
+      'aria-label',
+      `Abrir carrinho — ${items.length} ${items.length === 1 ? 'jogo' : 'jogos'}`,
+    );
     const rows = items.flatMap((item) => {
       const game = games.find((game) => game.id === item.gameId);
       if (!game) return [];
@@ -46,16 +51,29 @@ export function initCart(games: Game[], initialItems: CartItem[]) {
     if (!(event.target instanceof Element)) return;
     const button = event.target.closest('button');
     const id = button?.dataset.removeItem;
-    if (!button || !id || button.disabled) return;
-    button.disabled = true;
+    if (!button || !id || button.getAttribute('aria-disabled') === 'true') return;
+    // aria-disabled (e não disabled) para o botão não perder o foco enquanto o pedido corre.
+    button.setAttribute('aria-disabled', 'true');
+    const removed = items.find((item) => item.id === id);
+    const removedTitle = games.find((game) => game.id === removed?.gameId)?.title ?? 'O jogo';
+    const position = [...list.querySelectorAll('[data-remove-item]')].indexOf(button);
     try {
       await removeCartItem(id);
       items = items.filter((item) => item.id !== id);
       render();
-      close.focus();
+      // Se ainda há jogos, o foco vai para o "Remover" que ocupa o lugar do removido;
+      // só quando o carrinho fica vazio é que vai para "Fechar".
+      const remaining = list.querySelectorAll<HTMLButtonElement>('[data-remove-item]');
+      (remaining[Math.min(position, remaining.length - 1)] ?? close).focus();
+      removalStatus.textContent = '';
+      removalStatus.textContent = `${removedTitle} foi removido do carrinho. ${
+        items.length === 0
+          ? 'O carrinho está vazio.'
+          : `${items.length} ${items.length === 1 ? 'jogo' : 'jogos'} no carrinho.`
+      }`;
     } catch {
       showError('Não foi possível remover o jogo. Tenta novamente.');
-      button.disabled = false;
+      button.removeAttribute('aria-disabled');
     }
   });
   document.querySelectorAll<HTMLButtonElement>('[data-add-game]').forEach((button) => {

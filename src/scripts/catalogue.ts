@@ -20,8 +20,9 @@ export function initCatalogue(games: Game[]) {
     if (image) image.src = game.image;
     const title = card.querySelector('[data-game-title]');
     if (title) title.textContent = game.title;
-    const cover = card.querySelector('[data-game-cover]');
-    cover?.setAttribute('aria-label', `Ver ${game.title} para ${game.platform}`);
+    card
+      .querySelector('[data-add-game]')
+      ?.setAttribute('aria-label', `Adicionar ao carrinho: ${game.title}`);
     const category = card.querySelector('[data-game-category]');
     if (category) category.textContent = `${game.platform} / ${game.genre}`;
     const price = card.querySelector('[data-game-price]');
@@ -66,8 +67,7 @@ export function initCatalogue(games: Game[]) {
         ['Todas', 'PC', 'PlayStation 5', 'Nintendo Switch'].includes(saved.platform)
       ) {
         platform = saved.platform;
-        const value = document.querySelector('#platform-value');
-        if (value) value.textContent = platform;
+        element('#platform', HTMLSelectElement).value = platform;
       }
     }
   } catch {

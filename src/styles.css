@@ -46,8 +46,7 @@ button:disabled {
 }
 button,
 select,
-input,
-.fake-select {
+input {
   border: 1px solid #77796f;
   background: transparent;
   border-radius: 0;
@@ -64,6 +63,13 @@ input:focus-visible,
 select:focus-visible {
   outline: 3px solid #214e81;
   outline-offset: 4px;
+}
+.hero-art a {
+  /* Com a imagem em bloco, um link inline não desenha o contorno de foco. */
+  display: block;
+}
+.hero-art a:focus-visible {
+  outline-color: #fff;
 }
 [hidden] {
   /* biome-ignore lint/complexity/noImportantStyles: hidden deve prevalecer sobre os estilos de apresentação. */
@@ -198,8 +204,7 @@ select:focus-visible {
   padding: 1.5rem 0;
   border-block: 1px solid var(--line);
 }
-label,
-.platform-filter > p {
+label {
   display: block;
   font-size: 0.8rem;
   letter-spacing: 0.03em;
@@ -209,30 +214,6 @@ label,
 .toolbar input,
 .toolbar select {
   width: 100%;
-}
-.platform-filter {
-  position: relative;
-}
-.fake-select {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-.platform-options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--canvas);
-  border: 1px solid var(--ink);
-  z-index: 3;
-}
-.platform-options div {
-  padding: 1rem;
-  cursor: pointer;
-}
-.platform-options div:hover {
-  background: var(--surface);
 }
 #results {
   font-size: 0.85rem;
@@ -281,7 +262,7 @@ label,
   justify-content: space-between;
 }
 .price {
-  color: #aaa;
+  color: var(--ink);
   font-size: 1.5rem;
   margin: 0;
 }
@@ -580,9 +561,6 @@ dialog::backdrop {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-button:focus {
-  outline: none;
 }
 .sr-only {
   position: absolute;

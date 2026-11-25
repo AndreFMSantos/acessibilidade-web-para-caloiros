@@ -12,8 +12,9 @@ const href = productPath(game.id);
 
 <li data-game-card={game.id} hidden>
   <article>
-    <!-- biome-ignore lint/a11y/useAnchorContent: O nome acessível é fornecido pelo aria-label dinâmico. -->
-    <a href={href} aria-label={`Ver ${game.title} para ${game.platform}`} data-game-cover>
+    <!-- A capa repete o link do título: fica fora do Tab e da árvore de acessibilidade, mas continua clicável. -->
+    <!-- biome-ignore lint/a11y/useAnchorContent: Link duplicado, escondido de propósito (o título faz o mesmo). -->
+    <a href={href} tabindex="-1" aria-hidden="true" data-game-cover>
       <img
         src={game.image}
         alt=""
@@ -28,7 +29,14 @@ const href = productPath(game.id);
       <h3><a href={href} data-game-title>{game.title}</a></h3>
       <div class="purchase">
         <p class="price" data-game-price>{formatPrice(game.price)}</p>
-        <button type="button" data-add-game={game.id} disabled>Adicionar ao carrinho</button>
+        <button
+          type="button"
+          data-add-game={game.id}
+          aria-label={`Adicionar ao carrinho: ${game.title}`}
+          disabled
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     </div>
   </article>

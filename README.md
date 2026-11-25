@@ -41,6 +41,27 @@ O primeiro comando instala o Chromium usado pelos testes. `test:e2e` executa o a
 
 As violações detetadas fazem os testes falhar, incluindo o baixo contraste deliberado dos preços. Os resultados completos do axe ficam anexados aos testes. Estes testes automáticos não demonstram conformidade WCAG nem substituem a verificação de teclado e VoiceOver.
 
+## Auditoria e correções do ensaio (`demo/ensaio`)
+
+Ensaio feito sobre `demo/inicial`: investigação com teclado, DevTools e VoiceOver (macOS), e correções localizadas, preferindo HTML nativo. Verificações automáticas em Chromium (o ponto 7 também em WebKit); o anúncio sonoro foi confirmado com VoiceOver apenas nos pontos 3 e 6, os restantes ainda não foram ouvidos. Não demonstra conformidade WCAG do produto.
+
+| # | Problema | Critério WCAG 2.2 | Como se deteta | Correção |
+| --- | --- | --- | --- | --- |
+| 1 | Filtro `div role="button"` sem teclado | 2.1.1, 4.1.2 | Tab salta o controlo; DevTools mostra `div` | `<label for>` + `<select>` nativo; `change` em vez de cliques |
+| 2 | Preço `#aaa` sobre `#f4f4f2` (2,1:1) | 1.4.3 | axe | `color: var(--ink)` |
+| 3 | Confirmação de adicionar sem região de estado | 4.1.3 | VoiceOver (o axe não deteta) | `role="status"` na região que já existia |
+| 4 | Botão do carrinho sem nome acessível | 4.1.2 | DevTools › Accessibility; VoiceOver | `aria-label` "Abrir carrinho — N jogos", atualizado em `cart.ts` |
+| 5 | `button:focus { outline: none }` | 2.4.7 | Tab sem contorno visível | Remover a regra; fica o `:focus-visible` |
+| 6 | Remover do carrinho não é anunciado; foco salta para "Fechar" | 4.1.3, 2.4.3 | VoiceOver | Região `role="status"` dentro do `<dialog>`; foco no "Remover" seguinte (ou "Fechar" se vazio) |
+| 7 | Botão "Remover" perde o foco durante o pedido (`disabled`) | 2.4.3 | Medido: `activeElement` passa a `body` | `aria-disabled` em vez de `disabled` |
+| 8 | Contorno de foco invisível na imagem em destaque (azul sobre `#1d2a23`, 1,76:1; o link `inline` com imagem em bloco nem desenha o contorno) | 1.4.11, 2.4.7 | Captura de ecrã; o valor calculado parecia correto | `display: block` no link e contorno branco no painel escuro |
+| 9 | Seis botões "Adicionar ao carrinho" com o mesmo nome | 2.4.6 (boa prática) | Rotor do VoiceOver | `aria-label` "Adicionar ao carrinho: {jogo}" (mantém o texto visível no início, 2.5.3) |
+| 10 | Dois Tab por cartão (capa e título) | boa prática | Tab | Capa com `tabindex="-1"` e `aria-hidden="true"`; continua clicável |
+| 11 | `aria-label` do link da Hero tapa o `alt` | boa prática | DevTools | Sem `aria-label`; `alt` descreve a função do link |
+| 12 | Imagem do produto com `alt=""` | 1.1.1 (decisão editorial) | Revisão | `alt` curto com jogo e plataforma |
+
+Aprendido: o axe só detetou o contraste (#2). Os pontos 1, 3, 5, 6, 7 e 8 só aparecem com teclado, VoiceOver e olhar para o ecrã. Preço "Grátis" no catálogo e "0,00 €" no carrinho mantido de propósito.
+
 ## Lint e formatação
 
 ```sh
